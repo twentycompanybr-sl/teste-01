@@ -32,9 +32,11 @@ export const config = {
     philosophy: { src: '/assets/treatments/prp-hair', widths: [640, 1000], w: 1000, h: 1573, pos: '50% 40%' },
   },
 
-  // Before & After gallery: keep false until every image has written client
-  // consent and the content has been checked against the ASA/CAP Code.
-  resultsGalleryEnabled: false,
+  // Before & After gallery. Each entry in `results` only appears once its image
+  // file exists in /site/assets/before-after/ (uploading the file publishes it).
+  // Only publish images with the client's written consent, and never results of
+  // prescription-only medicines (e.g. botulinum toxin) — UK ASA/CAP rules.
+  resultsGalleryEnabled: true,
 };
 
 // One photo per category (null → elegant moon-phase placeholder).
@@ -44,8 +46,8 @@ export const categories = [
     ptIntro: 'Tratamentos para limpar, renovar e devolver o viço — a base de uma pele com aparência saudável.',
     img: { src: '/assets/treatments/microneedling-logo-wall', widths: [560, 825], w: 825, h: 1600, pos: '50% 60%' } },
   { id: 'rejuvenation', en: 'Skin Rejuvenation & Injectables', pt: 'Rejuvenescimento & Injetáveis',
-    enIntro: 'Injectable and collagen-supporting treatments, planned for subtle and natural-looking refinement.',
-    ptIntro: 'Tratamentos injetáveis e bioestimuladores, planejados para um refinamento sutil e natural.',
+    enIntro: 'Injectable, collagen-supporting and non-invasive treatments, planned for subtle and natural-looking refinement.',
+    ptIntro: 'Tratamentos injetáveis, bioestimuladores e não invasivos, planejados para um refinamento sutil e natural.',
     img: null },
   { id: 'prp', en: 'PRP — Platelet-Rich Plasma', pt: 'PRP — Plasma Rico em Plaquetas',
     enIntro: 'Treatments using your own platelet-rich plasma to support skin and hair quality.',
@@ -93,6 +95,10 @@ export const treatments = [
     en: { name: 'Radiesse®', desc: 'A collagen-stimulating injectable treatment designed to support skin firmness and improve the appearance of facial ageing.' },
     pt: { name: 'Radiesse®', desc: 'Tratamento injetável bioestimulador de colágeno, pensado para favorecer a firmeza da pele e suavizar os sinais do envelhecimento facial.' } },
 
+  { id: 'hifu', cat: 'rejuvenation', img: null,
+    en: { name: 'HIFU', desc: 'A non-invasive, focused-ultrasound treatment designed to support skin firmness and improve the appearance of laxity on the face and neck.' },
+    pt: { name: 'HIFU', desc: 'Tratamento não invasivo com ultrassom microfocado, pensado para favorecer a firmeza da pele e suavizar a aparência da flacidez no rosto e no pescoço.' } },
+
   // C. PRP
   { id: 'prp-facial', cat: 'prp', img: null,
     en: { name: 'PRP Facial', desc: 'A treatment using platelet-rich plasma, designed to support skin regeneration and skin quality.' },
@@ -120,7 +126,22 @@ export const treatments = [
 //   after: '/assets/before-after/hydrofacial-01-after.jpg',
 //   en: { caption: 'Hydrofacial — after 1 session', alt: 'Client skin before and after a hydrofacial' },
 //   pt: { caption: 'Hydrofacial — após 1 sessão', alt: 'Pele da cliente antes e depois do hydrofacial' } }
-export const results = [];
+// Two layouts: { before, after } → drag-to-compare slider (same framing required);
+// { file } → the client's own composite image shown unaltered (base name, any of .jpg/.jpeg/.png/.webp).
+export const results = [
+  { treatment: 'microneedling-pdrn', file: 'microneedling-pdrn-acne',
+    en: { caption: 'Microneedling with PDRN — before and after treatment', alt: 'Client’s cheek with active acne before treatment and with calmer, more even skin after microneedling with PDRN' },
+    pt: { caption: 'Microagulhamento com PDRN — antes e depois do tratamento', alt: 'Bochecha da cliente com acne ativa antes e com pele mais calma e uniforme após o microagulhamento com PDRN' } },
+  { treatment: 'skin-boosters', file: 'skinbooster-vitaran',
+    en: { caption: 'Skin booster (Vitaran®) — immediately after treatment and 2 days later', alt: 'Client’s cheek immediately after a Vitaran skin booster and the same skin two days later' },
+    pt: { caption: 'Skin booster (Vitaran®) — logo após o tratamento e 2 dias depois', alt: 'Bochecha da cliente logo após o skin booster Vitaran e a mesma pele dois dias depois' } },
+  { treatment: 'hifu', file: 'hifu-neck',
+    en: { caption: 'HIFU — face and neck, before and after treatment', alt: 'Client’s jawline and neck before and after HIFU treatment' },
+    pt: { caption: 'HIFU — rosto e pescoço, antes e depois do tratamento', alt: 'Mandíbula e pescoço da cliente antes e depois do HIFU' } },
+  { treatment: 'prp-hair', file: 'prp-hair',
+    en: { caption: 'PRP for hair — before and after treatment', alt: 'Client’s hairline before and after PRP hair treatment' },
+    pt: { caption: 'PRP capilar — antes e depois do tratamento', alt: 'Linha do cabelo da cliente antes e depois do PRP capilar' } },
+];
 
 // CLIENT REVIEWS — copy text exactly as written by the client; never edit meaning.
 // Either `text` (with optional `name`, only if authorised) or `image` (screenshot).

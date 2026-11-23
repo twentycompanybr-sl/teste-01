@@ -49,7 +49,7 @@ export const t = {
     },
     results: {
       eyebrow: 'Before & After', title: 'Real <em>results</em>',
-      intro: 'Each pair shows the same client, photographed in similar conditions and published with their written consent, without retouching. Individual results vary.',
+      intro: 'Each image shows the same client and is shared with their written consent, without retouching. Individual results vary.',
       before: 'Before', after: 'After', drag: 'Drag to compare', enlarge: 'View larger', all: 'All',
       prev: 'Previous result', next: 'Next result', close: 'Close',
       phTitle: 'Our results gallery is being curated',
@@ -65,7 +65,7 @@ export const t = {
       phText: 'Verified reviews will be shared here exactly as our clients wrote them, with their permission. You can also read client experiences on our Instagram.',
       phBtn: 'Read on Instagram',
     },
-    stats: { label: 'Rafa Boni Aesthetics in numbers', items: [['3', 'Years of experience'], ['12', 'Advanced treatments'], ['2', 'London locations'], ['1:1', 'Personalised care']] },
+    stats: { label: 'Rafa Boni Aesthetics in numbers', items: [['3', 'Years of experience'], ['{count}', 'Advanced treatments'], ['2', 'London locations'], ['1:1', 'Personalised care']] },
     why: {
       eyebrow: 'The Experience', title: 'Why choose Rafa Boni <em>Aesthetics</em>?',
       items: [
@@ -171,7 +171,7 @@ export const t = {
     },
     results: {
       eyebrow: 'Antes & Depois', title: 'Resultados <em>reais</em>',
-      intro: 'Cada par mostra a mesma cliente, fotografada em condições semelhantes e publicada com seu consentimento por escrito, sem retoques. Os resultados variam de pessoa para pessoa.',
+      intro: 'Cada imagem mostra a mesma cliente e é publicada com o consentimento dela por escrito, sem retoques. Os resultados variam de pessoa para pessoa.',
       before: 'Antes', after: 'Depois', drag: 'Arraste para comparar', enlarge: 'Ampliar', all: 'Todos',
       prev: 'Resultado anterior', next: 'Próximo resultado', close: 'Fechar',
       phTitle: 'Nossa galeria de resultados está sendo preparada',
@@ -187,7 +187,7 @@ export const t = {
       phText: 'As avaliações verificadas serão publicadas aqui exatamente como nossas clientes escreveram, com a autorização delas. Você também pode conhecer a experiência das clientes no nosso Instagram.',
       phBtn: 'Ver no Instagram',
     },
-    stats: { label: 'Rafa Boni Aesthetics em números', items: [['3', 'Anos de experiência'], ['12', 'Tratamentos avançados'], ['2', 'Locais em Londres'], ['1:1', 'Atendimento personalizado']] },
+    stats: { label: 'Rafa Boni Aesthetics em números', items: [['3', 'Anos de experiência'], ['{count}', 'Tratamentos avançados'], ['2', 'Locais em Londres'], ['1:1', 'Atendimento personalizado']] },
     why: {
       eyebrow: 'A Experiência', title: 'Por que escolher a Rafa Boni <em>Aesthetics</em>?',
       items: [

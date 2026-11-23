@@ -1,6 +1,6 @@
 // Static site generator for Rafa Boni Aesthetics (no dependencies).
 // Usage: node src/build.mjs   → writes HTML, sitemap.xml and robots.txt into /site
-import { writeFileSync, mkdirSync } from 'node:fs';
+import { writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -234,7 +234,17 @@ function badge(text) {
 
 function hero(L) {
   const H = L.hero;
-  return `<section class="hero" id="home" aria-labelledby="hero-title">
+  // twinkling sparkles (positions in % of the hero)
+  const sparks = [[8, 18, 11, 0], [22, 74, 8, 1.6], [43, 10, 7, 3.1], [55, 86, 10, .8], [64, 8, 13, 2.2], [90, 30, 9, 3.8], [95, 78, 7, 1.1], [36, 48, 6, 4.4], [78, 60, 8, 2.9]];
+  const star = '<svg viewBox="0 0 20 20"><path d="M10 0L11.6 8.4 20 10 11.6 11.6 10 20 8.4 11.6 0 10 8.4 8.4Z"/></svg>';
+  return `<section class="hero hero--lux" id="home" aria-labelledby="hero-title" data-hero>
+  <div class="hero-bg" aria-hidden="true">
+    <span class="aurora a1"></span><span class="aurora a2"></span><span class="aurora a3"></span>
+    <span class="hero-glow"></span>
+    <svg class="hero-moons" viewBox="0 0 232 40"><use href="#rb-moons"/></svg>
+    ${sparks.map(([x, y, s, d]) => `<span class="spark" style="left:${x}%;top:${y}%;width:${s}px;height:${s}px;--sd:${d}s">${star}</span>`).join('')}
+    <span class="grain"></span>
+  </div>
   <div class="container hero-grid">
     <div class="hero-copy">
       <p class="eyebrow hero-in" style="--d:.1s">${H.eyebrow}</p>
@@ -247,7 +257,7 @@ function hero(L) {
       </div>
     </div>
     <div class="hero-media" data-parallax="0.06">
-      <div class="hero-frame">${picture(C.portraits.hero, H.photo, 'hero-img', { eager: true, sizes: '(min-width: 900px) 520px, 100vw' })}</div>
+      <div class="hero-arch"><div class="hero-frame">${picture(C.portraits.hero, H.photo, 'hero-img', { eager: true, sizes: '(min-width: 900px) 480px, 100vw' })}</div></div>
       ${badge(H.badge)}
       <p class="hero-loc"><span>${H.locations}</span><span>${H.city}</span></p>
     </div>
@@ -322,8 +332,19 @@ function treatmentsSec(lang, L) {
 </section>`;
 }
 
+// keep only results whose image files exist; resolve composite file extensions
+const EXTS = ['jpg', 'jpeg', 'png', 'webp', 'JPG', 'JPEG', 'PNG'];
+const LIVE_RESULTS = results.map((r) => {
+  if (r.file) {
+    const ext = EXTS.find((e) => existsSync(join(OUT, 'assets/before-after', `${r.file}.${e}`)));
+    return ext ? { ...r, image: `/assets/before-after/${r.file}.${ext}` } : null;
+  }
+  return [r.before, r.after].every((p) => p && existsSync(join(OUT, p))) ? r : null;
+}).filter(Boolean);
+
 function resultsSec(lang, L) {
   const R = L.results;
+  const results = LIVE_RESULTS;
   const enabled = C.resultsGalleryEnabled && results.length > 0;
   let body;
   if (enabled) {
@@ -334,7 +355,10 @@ function resultsSec(lang, L) {
       ${cats.map((c) => `<button type="button" class="chip" data-rfilter="${c}" aria-pressed="false">${tName(c)}</button>`).join('')}
     </div>
     <div class="ba-grid" data-ba-grid>
-      ${results.map((r, i) => `<figure class="ba" data-cat="${r.treatment}" data-index="${i}" data-reveal>
+      ${results.map((r, i) => r.image ? `<figure class="ba ba--single" data-cat="${r.treatment}" data-index="${i}" data-reveal>
+        <div class="ba-stage ba-stage--single"><img src="${r.image}" alt="${esc(r[lang].alt)}" loading="lazy" decoding="async"></div>
+        <figcaption><span>${r[lang].caption}</span><button type="button" class="ba-zoom" data-zoom="${i}">${I.expand}<span class="sr">${R.enlarge}</span></button></figcaption>
+      </figure>` : `<figure class="ba" data-cat="${r.treatment}" data-index="${i}" data-reveal>
         <div class="ba-stage" data-ba style="--pos:50%">
           <img class="ba-after" src="${r.after}" alt="${esc(R.after)}: ${esc(r[lang].alt)}" loading="lazy" decoding="async">
           <div class="ba-before"><img src="${r.before}" alt="${esc(R.before)}: ${esc(r[lang].alt)}" loading="lazy" decoding="async"></div>
@@ -431,8 +455,10 @@ function philosophySec(L) {
 }
 
 function statsSec(L) {
+  const count = String(treatments.filter((x) => !x.consultationOnly).length);
   return `<section class="stats" aria-label="${esc(L.stats.label)}">
-  <div class="container"><ul class="stats-grid">${L.stats.items.map(([n, t], i) => {
+  <div class="container"><ul class="stats-grid">${L.stats.items.map(([n0, t], i) => {
+    const n = n0.replace('{count}', count);
     const num = /^\d+$/.test(n) ? `<strong data-count="${n}">${n}</strong>` : `<strong>${n}</strong>`;
     return `<li data-reveal style="--d:${i * 0.08}s">${num}<span>${t}</span></li>`;
   }).join('')}</ul></div>
@@ -533,9 +559,9 @@ ${preloader()}
 <main id="main">
 ${hero(L)}
 ${about(L)}
+${resultsSec(lang, L)}
 ${statsSec(L)}
 ${treatmentsSec(lang, L)}
-${resultsSec(lang, L)}
 ${whySec(L)}
 ${reviewsSec(lang, L)}
 ${philosophySec(L)}
