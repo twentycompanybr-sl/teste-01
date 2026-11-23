@@ -16,6 +16,7 @@ export const config = {
   instagram: 'rafaboni_aesthetics',
   email: 'rafaboni_aesthetics@outlook.com',
   locations: ['Canada Water', 'Mayfair'],
+  payments: ['Card', 'Apple Pay', 'PayPal', 'Revolut Pay', 'Klarna', 'Clearpay'],
   year: 2026,
 
   // Images — drop files into /site/assets/... and set them here. Leave null for a placeholder.
@@ -36,11 +37,24 @@ export const config = {
   resultsGalleryEnabled: false,
 };
 
+// One photo per category (null → elegant moon-phase placeholder).
 export const categories = [
-  { id: 'facial', en: 'Facial Skincare', pt: 'Cuidados Faciais' },
-  { id: 'rejuvenation', en: 'Skin Rejuvenation & Injectables', pt: 'Rejuvenescimento & Injetáveis' },
-  { id: 'prp', en: 'PRP — Platelet-Rich Plasma', pt: 'PRP — Plasma Rico em Plaquetas' },
-  { id: 'body', en: 'Body & Specialised Treatments', pt: 'Corporal & Tratamentos Especializados' },
+  { id: 'facial', en: 'Facial Skincare', pt: 'Cuidados Faciais',
+    enIntro: 'Treatments to cleanse, renew and restore radiance — the foundation of healthy-looking skin.',
+    ptIntro: 'Tratamentos para limpar, renovar e devolver o viço — a base de uma pele com aparência saudável.',
+    img: { src: '/assets/treatments/microneedling-logo-wall', widths: [560, 825], w: 825, h: 1600, pos: '50% 60%' } },
+  { id: 'rejuvenation', en: 'Skin Rejuvenation & Injectables', pt: 'Rejuvenescimento & Injetáveis',
+    enIntro: 'Injectable and collagen-supporting treatments, planned for subtle and natural-looking refinement.',
+    ptIntro: 'Tratamentos injetáveis e bioestimuladores, planejados para um refinamento sutil e natural.',
+    img: null },
+  { id: 'prp', en: 'PRP — Platelet-Rich Plasma', pt: 'PRP — Plasma Rico em Plaquetas',
+    enIntro: 'Treatments using your own platelet-rich plasma to support skin and hair quality.',
+    ptIntro: 'Tratamentos com o seu próprio plasma rico em plaquetas para favorecer a qualidade da pele e dos fios.',
+    img: { src: '/assets/treatments/prp-hair', widths: [640, 1000], w: 1000, h: 1573, pos: '50% 45%' } },
+  { id: 'body', en: 'Body & Specialised Treatments', pt: 'Corporal & Tratamentos Especializados',
+    enIntro: 'Targeted treatments for texture, scars, pigmentation and wellbeing.',
+    ptIntro: 'Tratamentos direcionados para textura, cicatrizes, pigmentação e bem-estar.',
+    img: null },
 ];
 
 // consultationOnly: true → prescription-only medicines (POMs) must not be

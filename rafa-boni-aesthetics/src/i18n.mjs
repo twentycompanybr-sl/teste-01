@@ -21,6 +21,7 @@ export const t = {
       cta1: 'Explore our treatments', cta2: 'Book your consultation',
       scroll: 'Scroll', locations: 'Canada Water · Mayfair', city: 'London, UK',
       photo: 'Rafaela Bonifácio performing a facial treatment at Rafa Boni Aesthetics',
+      badge: 'ENHANCING YOUR NATURAL BEAUTY · LONDON · ',
     },
     about: {
       eyebrow: 'About', title: 'Meet Rafaela <em>Bonifácio</em>',
@@ -41,7 +42,7 @@ export const t = {
     treatments: {
       eyebrow: 'Treatments', title: 'A curated menu of <em>advanced</em> treatments',
       intro: 'Every treatment begins with a consultation, where we discuss your goals, assess suitability and agree on a plan that is right for you.',
-      all: 'All', enquire: 'Enquire on WhatsApp', book: 'Request consultation', consultOnly: 'By consultation',
+      all: 'All', count: 'treatments', enquire: 'Enquire on WhatsApp', book: 'Request consultation', consultOnly: 'By consultation',
       photo: 'Treatment photo',
       note: 'All treatments are subject to a consultation and suitability assessment and are available to clients aged 18 and over. Individual results vary.',
       wa: 'Hello Rafa, I found your website and would like to know more about {t} and consultation availability.',
@@ -64,6 +65,7 @@ export const t = {
       phText: 'Verified reviews will be shared here exactly as our clients wrote them, with their permission. You can also read client experiences on our Instagram.',
       phBtn: 'Read on Instagram',
     },
+    stats: { label: 'Rafa Boni Aesthetics in numbers', items: [['3', 'Years of experience'], ['12', 'Advanced treatments'], ['2', 'London locations'], ['1:1', 'Personalised care']] },
     why: {
       eyebrow: 'The Experience', title: 'Why choose Rafa Boni <em>Aesthetics</em>?',
       items: [
@@ -110,6 +112,7 @@ export const t = {
       intro: 'We would love to hear from you. Get in touch to ask about treatments or consultation availability.',
       wa: 'Chat on WhatsApp', ig: 'Follow on Instagram', mail: 'Send an email',
       locations: 'Locations', locNote: 'Appointments in London. Please get in touch for location details.',
+      payment: 'Payment options',
       hours: 'Opening hours', weekdays: 'Monday to Saturday', sunday: 'Sunday', closed: 'Closed',
       waText: 'Hello Rafa, I found your website and would like to know more about your treatments and consultation availability.',
       mailSubject: 'Consultation enquiry',
@@ -140,6 +143,7 @@ export const t = {
       cta1: 'Conheça os tratamentos', cta2: 'Agende sua consulta',
       scroll: 'Role', locations: 'Canada Water · Mayfair', city: 'Londres, Reino Unido',
       photo: 'Rafaela Bonifácio realizando um tratamento facial na Rafa Boni Aesthetics',
+      badge: 'REALÇANDO SUA BELEZA NATURAL · LONDRES · ',
     },
     about: {
       eyebrow: 'Sobre', title: 'Prazer, Rafaela <em>Bonifácio</em>',
@@ -160,7 +164,7 @@ export const t = {
     treatments: {
       eyebrow: 'Tratamentos', title: 'Um menu selecionado de tratamentos <em>avançados</em>',
       intro: 'Todo tratamento começa com uma consulta, em que conversamos sobre seus objetivos, avaliamos a indicação e definimos juntas o plano ideal para você.',
-      all: 'Todos', enquire: 'Saber mais no WhatsApp', book: 'Solicitar consulta', consultOnly: 'Mediante consulta',
+      all: 'Todos', count: 'tratamentos', enquire: 'Saber mais no WhatsApp', book: 'Solicitar consulta', consultOnly: 'Mediante consulta',
       photo: 'Foto do tratamento',
       note: 'Todos os tratamentos dependem de consulta e avaliação de indicação e são realizados apenas em maiores de 18 anos. Os resultados variam de pessoa para pessoa.',
       wa: 'Olá, Rafa! Encontrei seu site e gostaria de saber mais sobre {t} e a disponibilidade para consulta.',
@@ -183,6 +187,7 @@ export const t = {
       phText: 'As avaliações verificadas serão publicadas aqui exatamente como nossas clientes escreveram, com a autorização delas. Você também pode conhecer a experiência das clientes no nosso Instagram.',
       phBtn: 'Ver no Instagram',
     },
+    stats: { label: 'Rafa Boni Aesthetics em números', items: [['3', 'Anos de experiência'], ['12', 'Tratamentos avançados'], ['2', 'Locais em Londres'], ['1:1', 'Atendimento personalizado']] },
     why: {
       eyebrow: 'A Experiência', title: 'Por que escolher a Rafa Boni <em>Aesthetics</em>?',
       items: [
@@ -229,6 +234,7 @@ export const t = {
       intro: 'Vai ser um prazer falar com você. Entre em contato para tirar dúvidas sobre os tratamentos ou a disponibilidade de consultas.',
       wa: 'Conversar no WhatsApp', ig: 'Seguir no Instagram', mail: 'Enviar e-mail',
       locations: 'Locais', locNote: 'Atendimentos em Londres. Entre em contato para mais detalhes sobre o local.',
+      payment: 'Formas de pagamento',
       hours: 'Horário de atendimento', weekdays: 'Segunda a sábado', sunday: 'Domingo', closed: 'Fechado',
       waText: 'Olá, Rafa! Encontrei seu site e gostaria de saber mais sobre os tratamentos e a disponibilidade para consulta.',
       mailSubject: 'Solicitação de informações',
