@@ -695,3 +695,7 @@ body.menu-open { overflow: hidden; }
 @media (min-width: 900px) { .ba-grid { grid-template-columns: repeat(2, 1fr); gap: 2.4rem; } }
 .hero-moons { bottom: -1%; opacity: .12; }
 @keyframes moons-in { from { opacity: 0; transform: translateX(-50%) translateY(30px); } to { opacity: .12; transform: translateX(-50%); } }
+
+/* hero photo: plain rectangle, no arch or outline frame */
+.hero-arch::before { display: none; }
+.hero--lux .hero-frame { border-radius: 0; }
