@@ -60,7 +60,7 @@ export const t = {
     reviews: {
       eyebrow: 'Client Reviews', title: 'Real experiences. <em>Beautiful</em> confidence.',
       intro: 'Discover what our clients say about their experience at Rafa Boni Aesthetics.',
-      prev: 'Previous review', next: 'Next review', original: 'Original review',
+      prev: 'Previous review', next: 'Next review', original: 'Original review', client: 'Client', translated: 'Translated from Portuguese',
       phTitle: 'Client reviews coming soon',
       phText: 'Verified reviews will be shared here exactly as our clients wrote them, with their permission. You can also read client experiences on our Instagram.',
       phBtn: 'Read on Instagram',
@@ -182,7 +182,7 @@ export const t = {
     reviews: {
       eyebrow: 'Avaliações', title: 'Experiências reais. Confiança <em>que encanta</em>.',
       intro: 'Veja o que nossas clientes dizem sobre a experiência na Rafa Boni Aesthetics.',
-      prev: 'Avaliação anterior', next: 'Próxima avaliação', original: 'Avaliação original',
+      prev: 'Avaliação anterior', next: 'Próxima avaliação', original: 'Avaliação original', client: 'Cliente', translated: 'Traduzido do português',
       phTitle: 'Avaliações em breve',
       phText: 'As avaliações verificadas serão publicadas aqui exatamente como nossas clientes escreveram, com a autorização delas. Você também pode conhecer a experiência das clientes no nosso Instagram.',
       phBtn: 'Ver no Instagram',

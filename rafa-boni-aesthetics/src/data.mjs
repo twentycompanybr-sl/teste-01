@@ -125,4 +125,15 @@ export const results = [];
 // CLIENT REVIEWS — copy text exactly as written by the client; never edit meaning.
 // Either `text` (with optional `name`, only if authorised) or `image` (screenshot).
 // { lang: 'en', text: '…', name: 'S.', source: 'Google', image: null, rating: 5 }
-export const reviews = [];
+export const reviews = [
+  // Transcribed exactly from client WhatsApp messages supplied by the business (names not shown).
+  { lang: 'pt', source: 'WhatsApp',
+    text: 'Boa tarde, Rafa!\n\nComo você comentou, meu nariz tinha muitos cravos e a pele dessa região é bem fininha, então poderia até descamar — mas não descamou! Minha pele ficou perfeita, macia e com um brilho lindo. Estou usando o filtro solar direitinho, como você me orientou.\n\nAmei o resultado — suas mãos são abençoadas! ❤️❤️❤️❤️🙏🙏🙏',
+    en: 'Good afternoon, Rafa! As you mentioned, my nose had a lot of blackheads and the skin there is very thin, so it could even have peeled — but it didn’t! My skin looked perfect, soft and with a beautiful glow. I’m using my sunscreen properly, just as you advised. I loved the result — you have blessed hands!' },
+  { lang: 'pt', source: 'WhatsApp',
+    text: 'Não tenho palavras para agradecer o resultado incrível que você vem me proporcionando com seu atendimento personalizado Rafa, eu estou tão feliz 🤩🥰, obrigada por cuidar da minha pele com tanto carinho, por me ajudar com dicas de como usar cada produto, proporcionando assim um resultado ainda melhor 😍🤍 Muuuito obrigadaaaa ❤️',
+    en: 'I have no words to thank you for the amazing results you’ve been giving me with your personalised care, Rafa. I’m so happy! Thank you for looking after my skin with so much care and for helping me with tips on how to use each product, making the results even better. Thank you sooo much!' },
+  { lang: 'pt', source: 'WhatsApp',
+    text: 'Ficou ótimo\nE fora todo o cuidado q vc teve c a gente\n\nVc está de parabéns\nQ todas profissionais fossem assim como vc\n\nDa até gosto de pagar\n\nEu fico imaginando o seu cuidado c a cliente no seu estúdio\n\n🥰',
+    en: 'It turned out great. And on top of that, all the care you took with us. Well done — I wish every professional were like you. It actually feels good to pay. I can only imagine the care you give your clients in your studio.' },
+];

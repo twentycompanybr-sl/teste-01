@@ -378,14 +378,16 @@ function reviewsSec(lang, L) {
   if (reviews.length) {
     body = `<div class="rv-wrap" data-reveal>
       <div class="rv-track" data-rv-track tabindex="0" aria-label="${R.eyebrow}">
-        ${reviews.map((r) => `<figure class="rv-card">
+        ${reviews.map((r, i) => `<figure class="rv-card" data-reveal style="--d:${i * 0.08}s">
+          <span class="rv-mark" aria-hidden="true">“</span>
           ${r.rating ? `<p class="rv-stars" aria-label="${r.rating}/5">${'★'.repeat(r.rating)}</p>` : ''}
           ${r.image ? `<img src="${r.image}" alt="${esc(R.original)}${r.name ? ' — ' + esc(r.name) : ''}" loading="lazy" decoding="async">` : ''}
-          ${r.text ? `<blockquote lang="${T[r.lang || 'en'].htmlLang}"><p>“${esc(r.text)}”</p></blockquote>` : ''}
-          <figcaption>${r.name ? esc(r.name) : ''}${r.source ? `<span>${esc(r.source)}</span>` : ''}</figcaption>
+          ${r.text ? `<blockquote lang="${T[r.lang || 'en'].htmlLang}"><p>${esc(r.text)}</p></blockquote>` : ''}
+          ${r.en && lang !== r.lang ? `<p class="rv-tr"><small>${R.translated}</small>${esc(r.en)}</p>` : ''}
+          <figcaption>${r.name ? esc(r.name) : R.client}${r.source ? `<span>${esc(r.source)}</span>` : ''}</figcaption>
         </figure>`).join('')}
       </div>
-      <div class="rv-nav"><button type="button" class="round" data-rv-prev aria-label="${R.prev}">${I.chevL}</button><button type="button" class="round" data-rv-next aria-label="${R.next}">${I.chevR}</button></div>
+      <div class="rv-nav${reviews.length <= 3 ? ' rv-nav--few' : ''}"><button type="button" class="round" data-rv-prev aria-label="${R.prev}">${I.chevL}</button><button type="button" class="round" data-rv-next aria-label="${R.next}">${I.chevR}</button></div>
     </div>`;
   } else {
     body = `<div class="pending pending--quote" data-reveal>
