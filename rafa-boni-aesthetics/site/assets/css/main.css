@@ -620,3 +620,13 @@ body.menu-open { overflow: hidden; }
 }
 .pay { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .45rem; }
 .pay li { font-size: .72rem; padding: .3rem .6rem; border: 1px solid var(--line-2); border-radius: 999px; color: var(--ink); }
+
+/* original logo */
+.logo-img { display: block; height: 50px; width: auto; }
+.brand .logo-img { transition: transform .5s var(--ease-out); }
+.brand:hover .logo-img { transform: scale(1.03); }
+@media (min-width: 900px) { .hdr .logo-img { height: 62px; } }
+@media (max-width: 380px) { .hdr .logo-img { height: 44px; } }
+.preload-logo { height: auto; width: 260px; clip-path: inset(0 100% 0 0); animation: wipe 1.1s var(--ease-out) .1s forwards; }
+.wm-main { background: linear-gradient(180deg, #A98457, #7E5D38); -webkit-background-clip: text; background-clip: text; }
+.wordmark--light .wm-main { background: linear-gradient(180deg, #E6CBA6, #C29C6C); -webkit-background-clip: text; background-clip: text; }

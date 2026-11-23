@@ -60,15 +60,21 @@ const MOONS_SPRITE = (() => {
   const shapes = xs.map((x, i) => `<circle cx="${x}" cy="20" r="${r[i]}" fill="${fill[i]}"${off[i] === null ? '' : ` mask="url(#rbm${i})"`}/>`).join('');
   const star = (x, y, s) => `<path d="M${x} ${y - s}L${x + s * .22} ${y - s * .22}L${x + s} ${y}L${x + s * .22} ${y + s * .22}L${x} ${y + s}L${x - s * .22} ${y + s * .22}L${x - s} ${y}L${x - s * .22} ${y - s * .22}Z" fill="url(#rbG)"/>`;
   return `<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
-<linearGradient id="rbG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C9A56E"/><stop offset="1" stop-color="#9A7444"/></linearGradient>
-<linearGradient id="rbL" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EBDDCB"/><stop offset="1" stop-color="#D8C3A8"/></linearGradient>
+<linearGradient id="rbG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C2A089"/><stop offset="1" stop-color="#A07E66"/></linearGradient>
+<linearGradient id="rbL" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FBEADB"/><stop offset="1" stop-color="#EED6C0"/></linearGradient>
 ${masks}
 <symbol id="rb-moons" viewBox="0 0 232 40">${shapes}${star(134, 4, 4)}${star(98, 37, 2.6)}${star(229, 8, 2.6)}${star(3, 30, 2.2)}</symbol>
 </defs></svg>`;
 })();
 
+function logoImg(cls = '', sizes = '130px', eager = true) {
+  const L = C.logo;
+  return `<img class="logo-img ${cls}" src="${L.src}-${L.widths[0]}.png" srcset="${L.widths.map((w) => `${L.src}-${w}.webp ${w}w`).join(', ')}" sizes="${sizes}" width="${L.w}" height="${L.h}" alt="${C.brand}"${eager ? '' : ' loading="lazy"'} decoding="async">`;
+}
+
 function wordmark(cls = '') {
-  if (C.logo) return `<img class="logo-img ${cls}" src="${C.logo}" alt="${C.brand}" width="160" height="48">`;
+  // the original artwork is dark-on-light; on dark backgrounds use the light SVG version
+  if (C.logo && !cls.includes('light')) return logoImg(cls);
   return `<span class="wordmark ${cls}"><svg class="wm-moons" viewBox="0 0 232 40" aria-hidden="true"><use href="#rb-moons"/></svg><span class="wm-main">Rafa Boni</span><span class="wm-sub">Aesthetics</span></span>`;
 }
 
@@ -112,7 +118,8 @@ ${alt ? `<link rel="alternate" hreflang="${T.en.htmlLang}" href="${abs(lang === 
 <meta property="og:locale:alternate" content="${T[altLang].ogLocale}">
 ${og}
 <meta name="theme-color" content="#F8F5F0">
-<link rel="icon" href="/assets/branding/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/branding/favicon-64.png" type="image/png" sizes="64x64">
+<link rel="apple-touch-icon" href="/assets/branding/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Manrope:wght@300;400;500;600&display=swap">
@@ -137,7 +144,7 @@ function jsonLd(lang) {
     founder: { '@type': 'Person', name: C.founder },
     areaServed: C.locations.map((l) => ({ '@type': 'Place', name: `${l}, London` })),
     openingHoursSpecification: [{ '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'], opens: '09:30', closes: '18:00' }],
-    ...(C.logo ? { logo: abs(C.logo) } : {}),
+    ...(C.logo ? { logo: abs(`${C.logo.src}-${C.logo.widths[1]}.png`) } : {}),
     ...(C.ogImage ? { image: abs(C.ogImage) } : {}),
   };
   return `<script type="application/ld+json">${JSON.stringify(data)}</script>`;
@@ -431,7 +438,7 @@ function statsSec(L) {
 }
 
 function preloader() {
-  return `<div class="preload" aria-hidden="true"><div class="preload-in"><svg class="preload-moons" viewBox="0 0 232 40"><use href="#rb-moons"/></svg><span class="preload-word">Rafa Boni</span><span class="preload-sub">Aesthetics</span></div></div>`;
+  return `<div class="preload" aria-hidden="true"><div class="preload-in">${C.logo ? logoImg('preload-logo', '280px') : '<svg class="preload-moons" viewBox="0 0 232 40"><use href="#rb-moons"/></svg><span class="preload-word">Rafa Boni</span><span class="preload-sub">Aesthetics</span>'}</div></div>`;
 }
 
 function formSec(lang, L) {
@@ -592,7 +599,8 @@ function rootPage() {
 <link rel="alternate" hreflang="pt-BR" href="${abs('/pt/')}">
 <link rel="alternate" hreflang="x-default" href="${abs('/en/')}">
 <meta name="robots" content="noindex, follow">
-<link rel="icon" href="/assets/branding/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/branding/favicon-64.png" type="image/png" sizes="64x64">
+<link rel="apple-touch-icon" href="/assets/branding/apple-touch-icon.png">
 <script src="/assets/js/lang-redirect.js"></script>
 <noscript><meta http-equiv="refresh" content="0; url=/en/"></noscript>
 <style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#F8F5F0;color:#292522;font:15px/1.6 system-ui,sans-serif;text-align:center}a{color:inherit;margin:0 .6rem}</style>

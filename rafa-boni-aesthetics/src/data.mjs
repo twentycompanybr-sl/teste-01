@@ -21,9 +21,9 @@ export const config = {
 
   // Images — drop files into /site/assets/... and set them here. Leave null for a placeholder.
   // Format: { src: base path (files are <src>-<width>.webp), widths: [...], w, h (largest size), pos: CSS object-position }
-  // logo: null → uses the built-in moon-phase mark + wordmark (recreated from the clinic wall logo).
-  // To use the original artwork instead: '/assets/logo/rafa-boni-logo.svg'
-  logo: null,
+  // Original logo (transparent background, generated from the client's artwork).
+  // null → falls back to the SVG moon-phase mark + wordmark (still used on dark backgrounds).
+  logo: { src: '/assets/logo/rafa-boni-logo', widths: [360, 720], w: 794, h: 384 },
   ogImage: '/assets/branding/og-image.jpg',
   portraits: {
     hero: { src: '/assets/portraits/rafaela-treatment-hero', widths: [640, 1035], w: 1035, h: 1520, pos: '50% 22%' },
