@@ -1,3 +1,9 @@
+/* self-hosted variable fonts (SIL Open Font License, see /assets/fonts/OFL-*.txt) */
+@font-face { font-family: 'Manrope'; font-style: normal; font-display: swap; font-weight: 200 800; src: url(/assets/fonts/manrope-latin-wght-normal.woff2) format('woff2-variations'), url(/assets/fonts/manrope-latin-wght-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Bodoni Moda'; font-style: normal; font-display: swap; font-weight: 400 900; src: url(/assets/fonts/bodoni-moda-latin-standard-normal.woff2) format('woff2-variations'), url(/assets/fonts/bodoni-moda-latin-standard-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Bodoni Moda'; font-style: italic; font-display: swap; font-weight: 400 900; src: url(/assets/fonts/bodoni-moda-latin-standard-italic.woff2) format('woff2-variations'), url(/assets/fonts/bodoni-moda-latin-standard-italic.woff2) format('woff2'); }
+@font-face { font-family: 'Cinzel'; font-style: normal; font-display: swap; font-weight: 400 900; src: url(/assets/fonts/cinzel-latin-wght-normal.woff2) format('woff2-variations'), url(/assets/fonts/cinzel-latin-wght-normal.woff2) format('woff2'); }
+
 /* ==========================================================
    Rafa Boni Aesthetics — design system
    ========================================================== */
@@ -823,3 +829,33 @@ body.menu-open { overflow: hidden; }
   .tp-title { font-size: clamp(2.3rem, 10.5vw, 3rem); }
   .tp-hero .btn-row .btn, .tp-cta .btn { width: 100%; }
 }
+
+/* accessibility: stronger contrast for small footer text */
+.ftr-disc, .ftr-bottom { color: rgba(232,221,206,.72); }
+.ftr-bottom a { color: rgba(232,221,206,.85); }
+
+/* LCP: the watermark is visible (faintly) from the first frame, then fades up */
+.hero-logo-bg img { opacity: .02; animation: logo-bg-up 2.4s var(--ease-out) .2s forwards, breathe 14s ease-in-out 3s infinite alternate; }
+.js:not(.seen) .page-home .hero-logo-bg img { animation-delay: .2s, 4s; }
+@keyframes logo-bg-up { to { opacity: .16; } }
+@media (min-width: 900px) { @keyframes logo-bg-up { to { opacity: .13; } } }
+
+/* performance: the aurora gradients are already soft, so no extra blur; grain stays still */
+.aurora { filter: none; }
+.grain { animation: none; }
+
+/* mobile booking bar */
+.mbar { display: none; }
+@media (max-width: 899px) {
+  .mbar { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 65; gap: .6rem; padding: .7rem 1rem calc(.7rem + env(safe-area-inset-bottom));
+    background: rgba(248,245,240,.94); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border-top: 1px solid var(--line);
+    transform: translateY(110%); transition: transform .5s var(--ease-out); }
+  .mbar.is-on { transform: none; }
+  .mbar a { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; min-height: 48px; font-size: .68rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; }
+  .mbar-book { flex: 1; background: var(--espresso); color: var(--ivory); }
+  .mbar-wa { padding: 0 1.1rem; border: 1px solid var(--line-2); color: var(--espresso); background: var(--white); }
+  .mbar-wa .i { color: #1FA855; }
+  .wa-float { display: none; }
+  .ftr { padding-bottom: calc(5.5rem + env(safe-area-inset-bottom)); }
+}
+@media (prefers-reduced-motion: reduce) { .mbar { transition: none; } }

@@ -1,6 +1,6 @@
 // Static site generator for Rafa Boni Aesthetics (no dependencies).
 // Usage: node src/build.mjs   → writes HTML, sitemap.xml and robots.txt into /site
-import { writeFileSync, mkdirSync, existsSync } from 'node:fs';
+import { writeFileSync, mkdirSync, existsSync, readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -14,6 +14,14 @@ const tpUrl = (lang, id) => (TSLUG[id] ? TPU[lang].base + TSLUG[id][lang] + '/' 
 const OUT = join(dirname(fileURLToPath(import.meta.url)), '..', 'site');
 const LANGS = ['en', 'pt'];
 const VERSION = Date.now().toString(36);
+function minifyCss(css) {
+  const out = []; let i = 0;
+  const re = /("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')/g; let m; let last = 0;
+  const squash = (t) => t.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\s+/g, ' ').replace(/\s*([{};,>])\s*/g, '$1').replace(/;}/g, '}');
+  while ((m = re.exec(css))) { out.push(squash(css.slice(last, m.index)), m[0]); last = re.lastIndex; }
+  out.push(squash(css.slice(last)));
+  return out.join('').trim();
+}
 const JS_FLAG = "var d=document.documentElement;d.classList.add('js');try{if(sessionStorage.getItem('rb-seen'))d.classList.add('seen');else sessionStorage.setItem('rb-seen','1')}catch(e){d.classList.add('seen')}";
 const sha = (s) => `'sha256-${createHash('sha256').update(s).digest('base64')}'`;
 
@@ -78,7 +86,7 @@ function logoImg(cls = '', sizes = '130px', eager = true) {
 function wordmark(cls = '') {
   // the original artwork is dark-on-light; on dark backgrounds use the light SVG version
   if (C.logo && !cls.includes('light')) return logoImg(cls);
-  return `<span class="wordmark ${cls}"><svg class="wm-moons" viewBox="0 0 232 40" aria-hidden="true"><use href="#rb-moons"/></svg><span class="wm-main">Rafa Boni</span><span class="wm-sub">Aesthetics</span></span>`;
+  return `<span class="wordmark ${cls}"><svg class="wm-moons" viewBox="0 0 232 40" aria-hidden="true"><use href="#rb-moons"/></svg><span class="wm-main">Rafa Boni</span> <span class="wm-sub">Aesthetics</span></span>`;
 }
 
 // image or elegant placeholder
@@ -123,11 +131,10 @@ ${og}
 <meta name="theme-color" content="#F8F5F0">
 <link rel="icon" href="/assets/branding/favicon-64.png" type="image/png" sizes="64x64">
 <link rel="apple-touch-icon" href="/assets/branding/apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Manrope:wght@300;400;500;600&display=swap">
+<link rel="preload" href="/assets/fonts/manrope-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/bodoni-moda-latin-standard-normal.woff2" as="font" type="font/woff2" crossorigin>
 <script>${JS_FLAG}</script>
-<link rel="stylesheet" href="/assets/css/main.css?v=${VERSION}">
+<link rel="stylesheet" href="/assets/css/main.min.css?v=${VERSION}">
 ${home ? jsonLd(lang) + faqJsonLd(T[lang]) : ''}${ld}
 <script src="/assets/js/main.js?v=${VERSION}" defer></script>
 </head>`;
@@ -167,7 +174,7 @@ function header(lang, altPath) {
 <header class="hdr" data-hdr>
   <span class="progress" data-progress aria-hidden="true"></span>
   <div class="container hdr-in">
-    <a class="brand" href="${h}#home" aria-label="${C.brand} — ${N.home}">${wordmark()}</a>
+    <a class="brand" href="${h}#home">${wordmark()}</a>
     <nav class="nav" aria-label="Main"><ul>${items}</ul></nav>
     <div class="hdr-actions">
       ${langSwitch('lang--hdr')}
@@ -188,7 +195,7 @@ function header(lang, altPath) {
 </div>`;
 }
 
-function footer(lang) {
+function footer(lang, bookHref) {
   const L = T[lang], F = L.footer, N = L.nav, h = routes[lang].home, Ct = L.contact;
   return `<footer class="ftr">
   <div class="container">
@@ -222,7 +229,11 @@ function footer(lang) {
     </div>
   </div>
 </footer>
-<a class="wa-float" href="${wa(Ct.waText)}" target="_blank" rel="noopener" aria-label="${L.waFloat}">${I.wa}</a>`;
+<a class="wa-float" href="${wa(Ct.waText)}" target="_blank" rel="noopener" aria-label="${L.waFloat}">${I.wa}</a>
+<div class="mbar" data-mbar>
+  <a class="mbar-book" href="${bookHref || h + '#consultation'}"><span>${N.book}</span>${I.arrow}</a>
+  <a class="mbar-wa" href="${wa(Ct.waText)}" target="_blank" rel="noopener" aria-label="${L.waFloat}">${I.wa}<span>WhatsApp</span></a>
+</div>`;
 }
 
 const sectionHead = (eyebrow, title, intro = '', cls = '') => `<div class="sec-head ${cls}">
@@ -245,7 +256,7 @@ function hero(L) {
   <div class="hero-bg" aria-hidden="true">
     <span class="aurora a1"></span><span class="aurora a2"></span><span class="aurora a3"></span>
     <span class="hero-glow"></span>
-    <div class="hero-logo-bg"><img src="/assets/logo/rafa-boni-logo-800.webp" srcset="/assets/logo/rafa-boni-logo-800.webp 800w, /assets/logo/rafa-boni-logo-1600.webp 1586w" sizes="(min-width: 900px) 70vw, 130vw" width="1586" height="768" alt="" decoding="async" fetchpriority="low"></div>
+    <div class="hero-logo-bg"><picture><source media="(min-width: 900px)" srcset="/assets/logo/rafa-boni-logo-800.webp 800w, /assets/logo/rafa-boni-logo-1600.webp 1586w" sizes="62vw"><img src="/assets/logo/rafa-boni-logo-800.webp" width="1586" height="768" alt="" decoding="async" fetchpriority="low"></picture></div>
     ${sparks.map(([x, y, s, d]) => `<span class="spark" style="left:${x}%;top:${y}%;width:${s}px;height:${s}px;--sd:${d}s">${star}</span>`).join('')}
     <span class="grain"></span>
   </div>
@@ -346,6 +357,12 @@ const LIVE_RESULTS = results.map((r) => {
   return [r.before, r.after].every((p) => p && existsSync(join(OUT, p))) ? r : null;
 }).filter(Boolean);
 
+function baSrcset(src, sizes) {
+  const base = src.replace(/\.[a-zA-Z]+$/, '');
+  const ws = [640, 1000].filter((w) => existsSync(join(OUT, `${base}-${w}.webp`)));
+  return ws.length ? ` srcset="${ws.map((w) => `${base}-${w}.webp ${w}w`).join(', ')}" sizes="${sizes}"` : '';
+}
+
 function resultsSec(lang, L) {
   const R = L.results;
   const results = LIVE_RESULTS;
@@ -360,7 +377,7 @@ function resultsSec(lang, L) {
     </div>
     <div class="ba-grid" data-ba-grid>
       ${results.map((r, i) => r.image ? `<figure class="ba ba--single" data-cat="${r.treatment}" data-index="${i}" data-reveal>
-        <div class="ba-stage ba-stage--single"><img src="${r.image}" alt="${esc(r[lang].alt)}" loading="lazy" decoding="async"></div>
+        <div class="ba-stage ba-stage--single"><img src="${r.image}"${baSrcset(r.image, '(min-width: 900px) 600px, 92vw')} alt="${esc(r[lang].alt)}" loading="lazy" decoding="async"></div>
         <figcaption><span>${r[lang].caption}</span><button type="button" class="ba-zoom" data-zoom="${i}">${I.expand}<span class="sr">${R.enlarge}</span></button></figcaption>
       </figure>` : `<figure class="ba" data-cat="${r.treatment}" data-index="${i}" data-reveal>
         <div class="ba-stage" data-ba style="--pos:50%">
@@ -667,7 +684,7 @@ ${header(lang, tpUrl(other, id))}
         <h2 class="tp-h" data-reveal>${U.how}</h2>
         <ol class="steps tp-steps">${steps}</ol>
         ${result ? `<h2 class="tp-h" data-reveal>${U.results}</h2>
-        <figure class="tp-result" data-reveal><img src="${result.image}" alt="${esc(result[lang].alt)}" loading="lazy" decoding="async"><figcaption>${result[lang].caption}</figcaption></figure>` : ''}
+        <figure class="tp-result" data-reveal><img src="${result.image}"${baSrcset(result.image, '(min-width: 600px) 520px, 92vw')} alt="${esc(result[lang].alt)}" loading="lazy" decoding="async"><figcaption>${result[lang].caption}</figcaption></figure>` : ''}
         <p class="fineprint" data-reveal>${U.note}</p>
       </div>
       <aside class="tp-aside">
@@ -701,7 +718,7 @@ ${header(lang, tpUrl(other, id))}
     </div>
   </section>
 </main>
-${footer(lang)}
+${footer(lang, book)}
 </body>
 </html>
 `;
@@ -813,11 +830,12 @@ write('index.html', rootPage());
 write('404.html', notFoundPage());
 write('sitemap.xml', sitemap());
 write('robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${abs('/sitemap.xml')}\n`);
+writeFileSync(join(OUT, 'assets/css/main.min.css'), minifyCss(readFileSync(join(OUT, 'assets/css/main.css'), 'utf8')));
 const csp = [
   "default-src 'self'",
   `script-src 'self' ${sha(JS_FLAG)}`,
-  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-  "font-src 'self' https://fonts.gstatic.com",
+  "style-src 'self' 'unsafe-inline'",
+  "font-src 'self'",
   "img-src 'self' data:",
   "connect-src 'self'",
   "form-action 'self'",
