@@ -208,6 +208,9 @@
       $$('[data-zoom]').forEach(function (b) {
         b.addEventListener('click', function () { show(b.closest('.ba')); lb.showModal(); });
       });
+      $$('.ba-stage--single').forEach(function (st) {
+        st.addEventListener('click', function () { show(st.closest('.ba')); lb.showModal(); });
+      });
       $('[data-lb-close]', lb).addEventListener('click', function () { lb.close(); });
       $('[data-lb-prev]', lb).addEventListener('click', function () { step(-1); });
       $('[data-lb-next]', lb).addEventListener('click', function () { step(1); });

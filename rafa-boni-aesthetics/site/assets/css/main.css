@@ -642,3 +642,8 @@ body.menu-open { overflow: hidden; }
 .rv-card figcaption { color: var(--espresso); }
 .rv-card figcaption span::before { content: "· "; }
 @media (min-width: 900px) { .rv-nav--few { display: none; } }
+
+/* composite before/after images (shown unaltered) */
+.ba-stage--single { background: var(--sand); cursor: zoom-in; }
+.ba-stage--single img { object-fit: contain; pointer-events: auto; }
+.lb-stage .ba-stage--single { aspect-ratio: auto; height: 76svh; }

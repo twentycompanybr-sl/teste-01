@@ -1,6 +1,6 @@
 // Static site generator for Rafa Boni Aesthetics (no dependencies).
 // Usage: node src/build.mjs   → writes HTML, sitemap.xml and robots.txt into /site
-import { writeFileSync, mkdirSync } from 'node:fs';
+import { writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -322,8 +322,19 @@ function treatmentsSec(lang, L) {
 </section>`;
 }
 
+// keep only results whose image files exist; resolve composite file extensions
+const EXTS = ['jpg', 'jpeg', 'png', 'webp', 'JPG', 'JPEG', 'PNG'];
+const LIVE_RESULTS = results.map((r) => {
+  if (r.file) {
+    const ext = EXTS.find((e) => existsSync(join(OUT, 'assets/before-after', `${r.file}.${e}`)));
+    return ext ? { ...r, image: `/assets/before-after/${r.file}.${ext}` } : null;
+  }
+  return [r.before, r.after].every((p) => p && existsSync(join(OUT, p))) ? r : null;
+}).filter(Boolean);
+
 function resultsSec(lang, L) {
   const R = L.results;
+  const results = LIVE_RESULTS;
   const enabled = C.resultsGalleryEnabled && results.length > 0;
   let body;
   if (enabled) {
@@ -334,7 +345,10 @@ function resultsSec(lang, L) {
       ${cats.map((c) => `<button type="button" class="chip" data-rfilter="${c}" aria-pressed="false">${tName(c)}</button>`).join('')}
     </div>
     <div class="ba-grid" data-ba-grid>
-      ${results.map((r, i) => `<figure class="ba" data-cat="${r.treatment}" data-index="${i}" data-reveal>
+      ${results.map((r, i) => r.image ? `<figure class="ba ba--single" data-cat="${r.treatment}" data-index="${i}" data-reveal>
+        <div class="ba-stage ba-stage--single"><img src="${r.image}" alt="${esc(r[lang].alt)}" loading="lazy" decoding="async"></div>
+        <figcaption><span>${r[lang].caption}</span><button type="button" class="ba-zoom" data-zoom="${i}">${I.expand}<span class="sr">${R.enlarge}</span></button></figcaption>
+      </figure>` : `<figure class="ba" data-cat="${r.treatment}" data-index="${i}" data-reveal>
         <div class="ba-stage" data-ba style="--pos:50%">
           <img class="ba-after" src="${r.after}" alt="${esc(R.after)}: ${esc(r[lang].alt)}" loading="lazy" decoding="async">
           <div class="ba-before"><img src="${r.before}" alt="${esc(R.before)}: ${esc(r[lang].alt)}" loading="lazy" decoding="async"></div>
@@ -431,8 +445,10 @@ function philosophySec(L) {
 }
 
 function statsSec(L) {
+  const count = String(treatments.filter((x) => !x.consultationOnly).length);
   return `<section class="stats" aria-label="${esc(L.stats.label)}">
-  <div class="container"><ul class="stats-grid">${L.stats.items.map(([n, t], i) => {
+  <div class="container"><ul class="stats-grid">${L.stats.items.map(([n0, t], i) => {
+    const n = n0.replace('{count}', count);
     const num = /^\d+$/.test(n) ? `<strong data-count="${n}">${n}</strong>` : `<strong>${n}</strong>`;
     return `<li data-reveal style="--d:${i * 0.08}s">${num}<span>${t}</span></li>`;
   }).join('')}</ul></div>
