@@ -119,6 +119,17 @@
       window.addEventListener('resize', runPar); runPar();
     }
 
+    // hero: soft light that follows the pointer (desktop only)
+    var heroEl = $('[data-hero]');
+    if (heroEl && !reduce && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      var hq = false, hx = 0, hy = 0;
+      heroEl.addEventListener('mousemove', function (e) {
+        var r = heroEl.getBoundingClientRect(); hx = e.clientX - r.left; hy = e.clientY - r.top;
+        if (hq) return; hq = true;
+        requestAnimationFrame(function () { heroEl.style.setProperty('--mx', hx + 'px'); heroEl.style.setProperty('--my', hy + 'px'); hq = false; });
+      });
+    }
+
     // count-up numbers
     var counters = $$('[data-count]');
     if (counters.length && 'IntersectionObserver' in window && !reduce) {

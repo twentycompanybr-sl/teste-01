@@ -234,7 +234,17 @@ function badge(text) {
 
 function hero(L) {
   const H = L.hero;
-  return `<section class="hero" id="home" aria-labelledby="hero-title">
+  // twinkling sparkles (positions in % of the hero)
+  const sparks = [[8, 18, 11, 0], [22, 74, 8, 1.6], [43, 10, 7, 3.1], [55, 86, 10, .8], [64, 8, 13, 2.2], [90, 30, 9, 3.8], [95, 78, 7, 1.1], [36, 48, 6, 4.4], [78, 60, 8, 2.9]];
+  const star = '<svg viewBox="0 0 20 20"><path d="M10 0L11.6 8.4 20 10 11.6 11.6 10 20 8.4 11.6 0 10 8.4 8.4Z"/></svg>';
+  return `<section class="hero hero--lux" id="home" aria-labelledby="hero-title" data-hero>
+  <div class="hero-bg" aria-hidden="true">
+    <span class="aurora a1"></span><span class="aurora a2"></span><span class="aurora a3"></span>
+    <span class="hero-glow"></span>
+    <svg class="hero-moons" viewBox="0 0 232 40"><use href="#rb-moons"/></svg>
+    ${sparks.map(([x, y, s, d]) => `<span class="spark" style="left:${x}%;top:${y}%;width:${s}px;height:${s}px;--sd:${d}s">${star}</span>`).join('')}
+    <span class="grain"></span>
+  </div>
   <div class="container hero-grid">
     <div class="hero-copy">
       <p class="eyebrow hero-in" style="--d:.1s">${H.eyebrow}</p>
@@ -247,7 +257,7 @@ function hero(L) {
       </div>
     </div>
     <div class="hero-media" data-parallax="0.06">
-      <div class="hero-frame">${picture(C.portraits.hero, H.photo, 'hero-img', { eager: true, sizes: '(min-width: 900px) 520px, 100vw' })}</div>
+      <div class="hero-arch"><div class="hero-frame">${picture(C.portraits.hero, H.photo, 'hero-img', { eager: true, sizes: '(min-width: 900px) 480px, 100vw' })}</div></div>
       ${badge(H.badge)}
       <p class="hero-loc"><span>${H.locations}</span><span>${H.city}</span></p>
     </div>
@@ -549,9 +559,9 @@ ${preloader()}
 <main id="main">
 ${hero(L)}
 ${about(L)}
+${resultsSec(lang, L)}
 ${statsSec(L)}
 ${treatmentsSec(lang, L)}
-${resultsSec(lang, L)}
 ${whySec(L)}
 ${reviewsSec(lang, L)}
 ${philosophySec(L)}
