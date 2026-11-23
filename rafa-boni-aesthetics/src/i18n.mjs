@@ -76,6 +76,22 @@ export const t = {
       ],
       quote: 'Beauty is more than appearance. It is about self-care, confidence and feeling comfortable in your own skin.',
     },
+    faq: {
+      eyebrow: 'FAQ', title: 'Frequently asked <em>questions</em>',
+      intro: 'Everything you may want to know before booking. For anything else, we are happy to help on WhatsApp.',
+      items: [
+        ['Do I need a consultation before treatment?', 'Yes. Every treatment starts with a consultation, where we talk about your goals, review your medical history and check whether a treatment is suitable for you. If it isn’t the right option for you, we will tell you honestly.'],
+        ['Do the treatments hurt?', 'Most clients find treatments very manageable. The sensation varies by treatment and from person to person. We explain what to expect beforehand and discuss comfort measures, such as topical numbing where appropriate.'],
+        ['How many sessions will I need?', 'It depends on the treatment, your skin and your goals. Some treatments are one-off, while others work best as a course. You will receive a personalised plan at your consultation.'],
+        ['Is there any downtime?', 'It varies. After treatments such as a hydrofacial most people return to their routine straight away, while microneedling or peels may leave the skin red or sensitive for a few days. We go through what to expect for your specific treatment.'],
+        ['When will I see results?', 'Some treatments give an immediate glow, while others, such as collagen-stimulating treatments, develop gradually over several weeks. Results vary from person to person and are never guaranteed.'],
+        ['Who are the treatments suitable for?', 'Treatments are available to clients aged 18 and over, following a suitability assessment. Some treatments are not recommended during pregnancy or breastfeeding, or with certain health conditions or medications, so please let us know about these at your consultation.'],
+        ['Do you offer prescription-only treatments?', 'Prescription-only medicines are never offered without an individual, face-to-face assessment by an appropriately qualified prescriber, who decides whether any treatment is appropriate for you.'],
+        ['How do I look after my skin after treatment?', 'You will receive personalised before- and aftercare advice for your treatment. Daily sun protection is one of the most important steps to protect your skin and your results.'],
+        ['Where are you located?', 'We see clients in Canada Water and Mayfair, London. Get in touch on WhatsApp or by email for location details.'],
+        ['How do I book and pay?', 'Send a consultation request through the website or message us on WhatsApp; your appointment is only booked once it is confirmed with you. We accept card, Apple Pay, PayPal, Revolut Pay, Klarna and Clearpay.'],
+      ],
+    },
     philosophy: {
       eyebrow: 'Our Philosophy', title: 'Enhancing your <em>natural</em> beauty.',
       p: [
@@ -197,6 +213,22 @@ export const t = {
         ['Experiência exclusiva', 'Um ambiente acolhedor, em que privacidade, conforto e atenção aos detalhes vêm em primeiro lugar.'],
       ],
       quote: 'Beleza vai além da aparência. É sobre autocuidado, confiança e sentir-se bem na própria pele.',
+    },
+    faq: {
+      eyebrow: 'Dúvidas', title: 'Perguntas <em>frequentes</em>',
+      intro: 'Tudo o que você pode querer saber antes de agendar. Para qualquer outra dúvida, fale com a gente pelo WhatsApp.',
+      items: [
+        ['Preciso de consulta antes do tratamento?', 'Sim. Todo tratamento começa com uma consulta, em que conversamos sobre seus objetivos, avaliamos seu histórico de saúde e verificamos se o tratamento é indicado para você. Se não for a melhor opção, vamos te dizer com sinceridade.'],
+        ['Os tratamentos doem?', 'A maioria das clientes considera os tratamentos bem tranquilos. A sensação varia de acordo com o tratamento e com cada pessoa. Explicamos antes o que esperar e conversamos sobre medidas de conforto, como anestésico tópico quando indicado.'],
+        ['Quantas sessões vou precisar?', 'Depende do tratamento, da sua pele e dos seus objetivos. Alguns tratamentos são feitos em sessão única; outros funcionam melhor em protocolo. Você recebe um plano personalizado na consulta.'],
+        ['Existe tempo de recuperação?', 'Varia. Depois de tratamentos como o hydrofacial, a maioria das pessoas volta à rotina na hora; já o microagulhamento ou os peelings podem deixar a pele vermelha ou sensível por alguns dias. Explicamos o que esperar no seu caso.'],
+        ['Quando vou ver resultados?', 'Alguns tratamentos dão um viço imediato; outros, como os bioestimuladores de colágeno, evoluem aos poucos ao longo de algumas semanas. Os resultados variam de pessoa para pessoa e nunca são garantidos.'],
+        ['Para quem os tratamentos são indicados?', 'Os tratamentos são realizados apenas em maiores de 18 anos, após avaliação de indicação. Alguns não são recomendados durante a gestação ou amamentação, nem com determinadas condições de saúde ou medicamentos — por isso, conte tudo na consulta.'],
+        ['Vocês oferecem tratamentos sujeitos a prescrição?', 'Medicamentos sujeitos a prescrição nunca são oferecidos sem avaliação individual e presencial por um prescritor devidamente qualificado, que decide se algum tratamento é adequado para você.'],
+        ['Como cuidar da pele depois do tratamento?', 'Você recebe orientações personalizadas de preparo e de cuidados pós-tratamento. O protetor solar diário é um dos passos mais importantes para proteger a pele e os resultados.'],
+        ['Onde vocês atendem?', 'Atendemos em Canada Water e Mayfair, em Londres. Fale com a gente pelo WhatsApp ou por e-mail para mais detalhes sobre o local.'],
+        ['Como agendar e pagar?', 'Envie uma solicitação de consulta pelo site ou mande uma mensagem no WhatsApp; o horário só fica agendado depois de confirmado com você. Aceitamos cartão, Apple Pay, PayPal, Revolut Pay, Klarna e Clearpay.'],
+      ],
     },
     philosophy: {
       eyebrow: 'Nossa Filosofia', title: 'Realçando a sua beleza <em>natural</em>.',
