@@ -179,6 +179,10 @@
 
     /* treatment → preselect in consultation form */
     var sel = $('#f-treatment');
+    try {
+      var tq = new URLSearchParams(location.search).get('t');
+      if (sel && tq) { var o = $('option[data-id="' + tq.replace(/[^a-z0-9-]/g, '') + '"]', sel); if (o) sel.value = o.value; }
+    } catch (e) {}
     $$('[data-treatment]').forEach(function (a) {
       a.addEventListener('click', function () {
         if (!sel) return;
