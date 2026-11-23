@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 import { config as C, categories, treatments, results, reviews } from './data.mjs';
 import { t as T, routes } from './i18n.mjs';
 import { legal } from './legal.mjs';
+import { PAY } from './payment-icons.mjs';
 
 const OUT = join(dirname(fileURLToPath(import.meta.url)), '..', 'site');
 const LANGS = ['en', 'pt'];
@@ -125,7 +126,7 @@ ${og}
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Manrope:wght@300;400;500;600&display=swap">
 <script>${JS_FLAG}</script>
 <link rel="stylesheet" href="/assets/css/main.css?v=${VERSION}">
-${home ? jsonLd(lang) : ''}
+${home ? jsonLd(lang) + faqJsonLd(T[lang]) : ''}
 <script src="/assets/js/main.js?v=${VERSION}" defer></script>
 </head>`;
 }
@@ -201,6 +202,7 @@ function footer(lang) {
       </div>
       <div class="ftr-col"><h2>${F.explore}</h2><ul>
         ${['about', 'treatments', 'results', 'reviews', 'contact'].map((k) => `<li><a href="${h}#${k}">${N[k]}</a></li>`).join('')}
+        <li><a href="${h}#faq">FAQ</a></li>
         <li><a href="${h}#consultation">${N.book}</a></li></ul></div>
       <div class="ftr-col"><h2>${F.contact}</h2><ul>
         <li><a href="${wa(Ct.waText)}" target="_blank" rel="noopener">${C.whatsappDisplay}</a></li>
@@ -442,6 +444,38 @@ function whySec(L) {
 </section>`;
 }
 
+function payChips() {
+  const svg = (k, fill) => `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="${fill || '#' + PAY[k].hex}" d="${PAY[k].path}"/></svg>`;
+  const card = '<svg class="pay-card" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="2" fill="none" stroke="#292522" stroke-width="1.5"/><rect x="2.5" y="8.6" width="19" height="2.6" fill="#292522"/></svg>';
+  const chips = [
+    `<li class="pay-chip pay-chip--card">${card}<span>Card</span><span class="pay-marks">${['visa', 'mastercard', 'amex', 'discover'].map((k) => `<span class="pm">${svg(k)}</span>`).join('')}</span></li>`,
+    `<li class="pay-chip"><span class="pay-ic">${svg('paypal')}</span><span>PayPal</span></li>`,
+    `<li class="pay-chip"><span class="pay-badge pay-badge--clearpay">${svg('clearpay', '#000')}</span><span>Clearpay</span></li>`,
+    `<li class="pay-chip"><span class="pay-badge pay-badge--apple">${svg('applepay', '#000')}</span><span>Apple Pay</span></li>`,
+    `<li class="pay-chip"><span class="pay-badge pay-badge--klarna">${svg('klarna', '#000')}</span><span>Klarna</span></li>`,
+    `<li class="pay-chip"><span class="pay-badge pay-badge--revolut">${svg('revolut', '#fff')}</span><span>Revolut Pay</span></li>`,
+  ];
+  return `<ul class="pay">${chips.join('')}</ul>`;
+}
+
+function faqSec(L) {
+  const F = L.faq;
+  return `<section class="sec faq" id="faq" aria-labelledby="faq-title">
+  <div class="container faq-grid">
+    ${sectionHead(F.eyebrow, F.title, F.intro).replace('<h2 class="h2"', '<h2 class="h2" id="faq-title"')}
+    <div class="faq-list">${F.items.map(([q, a], i) => `<details class="faq-item" data-reveal style="--d:${Math.min(i, 5) * 0.05}s"${i === 0 ? ' open' : ''}>
+      <summary><span class="faq-n">${pad(i + 1)}</span><span class="faq-q">${q}</span><span class="faq-plus" aria-hidden="true"></span></summary>
+      <div class="faq-a"><p>${a}</p></div>
+    </details>`).join('')}</div>
+  </div>
+</section>`;
+}
+
+function faqJsonLd(L) {
+  const data = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: L.faq.items.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) };
+  return `<script type="application/ld+json">${JSON.stringify(data)}</script>`;
+}
+
 function philosophySec(L) {
   const P = L.philosophy;
   return `<section class="philo" aria-labelledby="philo-title">
@@ -541,7 +575,7 @@ function contactSec(lang, L) {
       <div class="loc loc--info" data-reveal style="--d:.2s">
         <p class="loc-row">${I.clock}<span><strong>${Ct.hours}</strong>${Ct.weekdays}: 09:30 – 18:00<br>${Ct.sunday}: ${Ct.closed}</span></p>
         <p class="loc-row">${I.pin}<span><strong>${Ct.locations}</strong>${Ct.locNote}</span></p>
-        <div class="loc-row loc-pay"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="1.5"/><path d="M3 10h18"/></svg><span><strong>${Ct.payment}</strong><ul class="pay">${C.payments.map((x) => `<li>${x}</li>`).join('')}</ul></span></div>
+        <div class="loc-row loc-pay"><span><strong>${Ct.payment}</strong>${payChips()}</span></div>
       </div>
     </div>
   </div>
@@ -564,6 +598,7 @@ ${statsSec(L)}
 ${treatmentsSec(lang, L)}
 ${whySec(L)}
 ${reviewsSec(lang, L)}
+${faqSec(L)}
 ${philosophySec(L)}
 ${formSec(lang, L)}
 ${contactSec(lang, L)}
