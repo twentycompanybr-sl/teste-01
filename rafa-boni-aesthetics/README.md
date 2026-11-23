@@ -30,6 +30,16 @@ para o idioma salvo ou o do navegador (padrão: inglês).
   *Site settings → Forms → Form notifications*. Fora do Netlify, o formulário
   encaminha a solicitação pelo WhatsApp.
 
+## Publicar na Vercel
+
+1. Em https://vercel.com/new, importe o repositório do GitHub.
+2. Em **Root Directory**, escolha `rafa-boni-aesthetics` (o `vercel.json` já define
+   build, pasta de saída e cabeçalhos de segurança). Clique em **Deploy**.
+3. O domínio usado em canonical/sitemap vem de `VERCEL_PROJECT_PRODUCTION_URL`
+   (ou defina `SITE_URL`). Use a **Production Branch** onde o site está.
+4. Na Vercel não existe Netlify Forms: o formulário valida os dados e encaminha a
+   solicitação pelo WhatsApp (já implementado).
+
 ## Adicionar os materiais da cliente
 
 1. Coloque os arquivos em `site/assets/` (`logo/`, `portraits/`, `treatments/`,

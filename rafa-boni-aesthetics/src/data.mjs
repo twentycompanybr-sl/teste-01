@@ -7,7 +7,10 @@ export const config = {
   brand: 'Rafa Boni Aesthetics',
   founder: 'Rafaela Bonifácio',
   // On Netlify, process.env.URL is set automatically to the site's primary URL.
-  siteUrl: (process.env.SITE_URL || process.env.URL || 'http://localhost:8080').replace(/\/$/, ''),
+  // SITE_URL (manual) → Netlify's URL → Vercel's production domain → local preview
+  siteUrl: (process.env.SITE_URL || process.env.URL
+    || (process.env.VERCEL_PROJECT_PRODUCTION_URL && `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`)
+    || 'http://localhost:8080').replace(/\/$/, ''),
   whatsapp: '447588723507',
   whatsappDisplay: '+44 7588 723507',
   instagram: 'rafaboni_aesthetics',

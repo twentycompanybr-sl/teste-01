@@ -635,4 +635,24 @@ write('_headers', `${ALL}
 /assets/js/main.js
   Cache-Control: public, max-age=31536000, immutable
 `);
+// Same headers for Vercel (vercel.json is read before the build, so it is committed too)
+const vercel = {
+  $schema: 'https://openapi.vercel.sh/vercel.json',
+  buildCommand: 'node src/build.mjs',
+  outputDirectory: 'site',
+  framework: null,
+  trailingSlash: true,
+  headers: [
+    { source: '/(.*)', headers: [
+      { key: 'Content-Security-Policy', value: csp },
+      { key: 'X-Content-Type-Options', value: 'nosniff' },
+      { key: 'X-Frame-Options', value: 'DENY' },
+      { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+      { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+      { key: 'Strict-Transport-Security', value: 'max-age=31536000; includeSubDomains' },
+    ] },
+    { source: '/assets/(css|js)/(.*)', headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }] },
+  ],
+};
+writeFileSync(join(OUT, '..', 'vercel.json'), JSON.stringify(vercel, null, 2) + '\n');
 console.log(`Built ${LANGS.length * 3 + 2} pages for ${C.siteUrl}`);
