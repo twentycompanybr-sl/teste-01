@@ -699,3 +699,20 @@ body.menu-open { overflow: hidden; }
 /* hero photo: plain rectangle, no arch or outline frame */
 .hero-arch::before { display: none; }
 .hero--lux .hero-frame { border-radius: 0; }
+
+/* hero: the logo as a large watermark behind the headline */
+.hero-moons { display: none; }
+.hero-logo-bg { position: absolute; left: 50%; top: calc(var(--hdr) + 6vh); width: min(1180px, 76vw); transform: translateX(-50%);
+  -webkit-mask-image: linear-gradient(180deg, #000 35%, rgba(0,0,0,.55) 70%, transparent 100%); mask-image: linear-gradient(180deg, #000 35%, rgba(0,0,0,.55) 70%, transparent 100%); }
+.hero-logo-bg img { display: block; width: 100%; height: auto; opacity: 0; animation: logo-bg-in 2.4s var(--ease-out) .5s forwards, breathe 14s ease-in-out 3s infinite alternate; }
+.js:not(.seen) .page-home .hero-logo-bg img { animation-delay: 1.6s, 4s; }
+@keyframes logo-bg-in { from { opacity: 0; transform: translateY(24px) scale(.97); filter: blur(6px); } to { opacity: .16; transform: none; filter: none; } }
+@keyframes breathe { from { transform: scale(1); } to { transform: scale(1.035); } }
+@media (min-width: 900px) {
+  .hero-logo-bg { left: 4%; width: min(980px, 62vw); transform: none; top: calc(var(--hdr) + 3vh); }
+  @keyframes logo-bg-in { from { opacity: 0; transform: translateY(24px) scale(.97); filter: blur(6px); } to { opacity: .13; transform: none; filter: none; } }
+}
+@media (max-width: 899px) {
+  .hero-logo-bg { width: 128vw; top: calc(var(--hdr) + 1.5rem); }
+}
+@media (prefers-reduced-motion: reduce) { .hero-logo-bg img { opacity: .14; animation: none !important; } }
