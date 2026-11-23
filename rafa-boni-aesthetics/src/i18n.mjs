@@ -20,7 +20,7 @@ export const t = {
       body: 'Discover a personalised approach to advanced aesthetics, where science, expertise and beauty come together to enhance your natural features and confidence.',
       cta1: 'Explore our treatments', cta2: 'Book your consultation',
       scroll: 'Scroll', locations: 'Canada Water · Mayfair', city: 'London, UK',
-      photo: 'Portrait of Rafaela Bonifácio',
+      photo: 'Rafaela Bonifácio performing a facial treatment at Rafa Boni Aesthetics',
     },
     about: {
       eyebrow: 'About', title: 'Meet Rafaela <em>Bonifácio</em>',
@@ -36,7 +36,7 @@ export const t = {
         ['3 Years', 'of Experience'],
       ],
       signature: 'Founder, Rafa Boni Aesthetics',
-      photo: 'Rafaela Bonifácio, founder of Rafa Boni Aesthetics', photo2: 'Rafaela Bonifácio at work',
+      photo: 'Rafaela Bonifácio, founder of Rafa Boni Aesthetics', photo2: 'Facial treatment in front of the Rafa Boni Aesthetics logo',
     },
     treatments: {
       eyebrow: 'Treatments', title: 'A curated menu of <em>advanced</em> treatments',
@@ -139,7 +139,7 @@ export const t = {
       body: 'Conheça uma abordagem personalizada de estética avançada, em que ciência, conhecimento e beleza se unem para realçar seus traços naturais e sua autoconfiança.',
       cta1: 'Conheça os tratamentos', cta2: 'Agende sua consulta',
       scroll: 'Role', locations: 'Canada Water · Mayfair', city: 'Londres, Reino Unido',
-      photo: 'Retrato de Rafaela Bonifácio',
+      photo: 'Rafaela Bonifácio realizando um tratamento facial na Rafa Boni Aesthetics',
     },
     about: {
       eyebrow: 'Sobre', title: 'Prazer, Rafaela <em>Bonifácio</em>',
@@ -155,7 +155,7 @@ export const t = {
         ['3 anos', 'de experiência'],
       ],
       signature: 'Fundadora, Rafa Boni Aesthetics',
-      photo: 'Rafaela Bonifácio, fundadora da Rafa Boni Aesthetics', photo2: 'Rafaela Bonifácio em atendimento',
+      photo: 'Rafaela Bonifácio, fundadora da Rafa Boni Aesthetics', photo2: 'Atendimento facial em frente à logo da Rafa Boni Aesthetics',
     },
     treatments: {
       eyebrow: 'Tratamentos', title: 'Um menu selecionado de tratamentos <em>avançados</em>',

@@ -15,15 +15,17 @@ export const config = {
   locations: ['Canada Water', 'Mayfair'],
   year: 2026,
 
-  // Images — drop files into /site/assets/... and set the paths here.
-  // Leave null to show an elegant placeholder.
-  logo: null,                 // e.g. '/assets/logo/rafa-boni-logo.svg'
-  ogImage: null,              // e.g. '/assets/branding/og-image.jpg' (1200×630)
+  // Images — drop files into /site/assets/... and set them here. Leave null for a placeholder.
+  // Format: { src: base path (files are <src>-<width>.webp), widths: [...], w, h (largest size), pos: CSS object-position }
+  // logo: null → uses the built-in moon-phase mark + wordmark (recreated from the clinic wall logo).
+  // To use the original artwork instead: '/assets/logo/rafa-boni-logo.svg'
+  logo: null,
+  ogImage: '/assets/branding/og-image.jpg',
   portraits: {
-    hero: null,               // e.g. '/assets/portraits/rafaela-hero.jpg'
-    about: null,              // e.g. '/assets/portraits/rafaela-about.jpg'
-    aboutDetail: null,        // e.g. '/assets/portraits/rafaela-detail.jpg'
-    philosophy: null,         // e.g. '/assets/gallery/clinic-ambience.jpg'
+    hero: { src: '/assets/portraits/rafaela-treatment-hero', widths: [640, 1035], w: 1035, h: 1520, pos: '50% 22%' },
+    about: { src: '/assets/portraits/rafaela-portrait', widths: [700, 1200], w: 1200, h: 1162, pos: '64% 50%' },
+    aboutDetail: { src: '/assets/treatments/microneedling-logo-wall', widths: [560, 825], w: 825, h: 1600, pos: '50% 10%' },
+    philosophy: { src: '/assets/treatments/prp-hair', widths: [640, 1000], w: 1000, h: 1573, pos: '50% 40%' },
   },
 
   // Before & After gallery: keep false until every image has written client
@@ -46,7 +48,8 @@ export const treatments = [
   { id: 'hydrofacial', cat: 'facial', img: null,
     en: { name: 'Hydrofacial', desc: 'Deep skin cleansing, hydration and revitalisation to help improve the overall appearance of the skin.' },
     pt: { name: 'Hydrofacial', desc: 'Limpeza profunda, hidratação e revitalização para ajudar a melhorar a aparência geral da pele.' } },
-  { id: 'microneedling-pdrn', cat: 'facial', img: null,
+  { id: 'microneedling-pdrn', cat: 'facial',
+    img: { src: '/assets/treatments/microneedling-logo-wall', widths: [560, 825], w: 825, h: 1600, pos: '50% 63%' },
     en: { name: 'Microneedling with PDRN', desc: 'A skin treatment designed to support skin renewal and improve the appearance of skin texture.' },
     pt: { name: 'Microagulhamento com PDRN', desc: 'Tratamento pensado para estimular a renovação da pele e melhorar a aparência da sua textura.' } },
   { id: 'dermaplaning', cat: 'facial', img: null,
@@ -77,7 +80,8 @@ export const treatments = [
   { id: 'prp-facial', cat: 'prp', img: null,
     en: { name: 'PRP Facial', desc: 'A treatment using platelet-rich plasma, designed to support skin regeneration and skin quality.' },
     pt: { name: 'PRP Facial', desc: 'Tratamento com plasma rico em plaquetas, pensado para favorecer a regeneração e a qualidade da pele.' } },
-  { id: 'prp-hair', cat: 'prp', img: null,
+  { id: 'prp-hair', cat: 'prp',
+    img: { src: '/assets/treatments/prp-hair', widths: [640, 1000], w: 1000, h: 1573, pos: '50% 52%' },
     en: { name: 'PRP Hair', desc: 'A treatment intended to support hair health, which may be considered for certain types of hair loss following a consultation.' },
     pt: { name: 'PRP Capilar', desc: 'Tratamento voltado à saúde dos fios, que pode ser considerado para alguns tipos de queda de cabelo após avaliação.' } },
 

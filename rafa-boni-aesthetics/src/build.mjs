@@ -49,14 +49,40 @@ const CAT_ICON = {
   body: '<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M22 8c0 10 4 14 4 22s-6 12-6 26M42 8c0 10-4 14-4 22s6 12 6 26"/><path d="M27 30h10"/></svg>',
 };
 
+// Moon-phase mark recreated from the clinic's wall logo (light → gold → full → gold → light).
+const MOONS_SPRITE = (() => {
+  const xs = [14, 46, 80, 116, 152, 186, 218];
+  // offset of the "shadow" circle per phase (negative = lit on the left)
+  const off = [-9, -7, -4, null, 4, 7, 9];
+  const fill = ['url(#rbL)', 'url(#rbG)', 'url(#rbG)', 'url(#rbG)', 'url(#rbG)', 'url(#rbG)', 'url(#rbL)'];
+  const r = [11, 13, 14.5, 15, 14.5, 13, 11];
+  const masks = xs.map((x, i) => off[i] === null ? '' : `<mask id="rbm${i}"><rect x="0" y="0" width="232" height="40" fill="#fff"/><circle cx="${x - off[i] * 1.0}" cy="20" r="${r[i]}" fill="#000"/></mask>`).join('');
+  const shapes = xs.map((x, i) => `<circle cx="${x}" cy="20" r="${r[i]}" fill="${fill[i]}"${off[i] === null ? '' : ` mask="url(#rbm${i})"`}/>`).join('');
+  const star = (x, y, s) => `<path d="M${x} ${y - s}L${x + s * .22} ${y - s * .22}L${x + s} ${y}L${x + s * .22} ${y + s * .22}L${x} ${y + s}L${x - s * .22} ${y + s * .22}L${x - s} ${y}L${x - s * .22} ${y - s * .22}Z" fill="url(#rbG)"/>`;
+  return `<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+<linearGradient id="rbG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C9A56E"/><stop offset="1" stop-color="#9A7444"/></linearGradient>
+<linearGradient id="rbL" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EBDDCB"/><stop offset="1" stop-color="#D8C3A8"/></linearGradient>
+${masks}
+<symbol id="rb-moons" viewBox="0 0 232 40">${shapes}${star(134, 4, 4)}${star(98, 37, 2.6)}${star(229, 8, 2.6)}${star(3, 30, 2.2)}</symbol>
+</defs></svg>`;
+})();
+
 function wordmark(cls = '') {
   if (C.logo) return `<img class="logo-img ${cls}" src="${C.logo}" alt="${C.brand}" width="160" height="48">`;
-  return `<span class="wordmark ${cls}"><span class="wm-main">Rafa Boni</span><span class="wm-sub">Aesthetics</span></span>`;
+  return `<span class="wordmark ${cls}"><svg class="wm-moons" viewBox="0 0 232 40" aria-hidden="true"><use href="#rb-moons"/></svg><span class="wm-main">Rafa Boni</span><span class="wm-sub">Aesthetics</span></span>`;
 }
 
 // image or elegant placeholder
-function picture(src, alt, cls = '', { eager = false, variant = 'portrait' } = {}) {
-  if (src) return `<img class="${cls}" src="${src}" alt="${esc(alt)}" ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async">`;
+function img(m, alt, cls = '', { eager = false, sizes = '100vw' } = {}) {
+  if (typeof m === 'string') m = { src: m.replace(/\.[a-z]+$/, ''), raw: m };
+  const src = m.raw || `${m.src}-${m.widths[m.widths.length - 1]}.webp`;
+  const srcset = m.widths ? ` srcset="${m.widths.map((w) => `${m.src}-${w}.webp ${w}w`).join(', ')}" sizes="${sizes}"` : '';
+  const dims = m.w ? ` width="${m.w}" height="${m.h}"` : '';
+  const pos = m.pos ? ` style="object-position:${m.pos}"` : '';
+  return `<img class="${cls}" src="${src}"${srcset}${dims}${pos} alt="${esc(alt)}" ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async">`;
+}
+function picture(src, alt, cls = '', { eager = false, variant = 'portrait', sizes } = {}) {
+  if (src) return img(src, alt, cls, { eager, sizes });
   return `<div class="ph ph--${variant} ${cls}" role="img" aria-label="${esc(alt)}" data-placeholder><span class="ph-mono">RB</span></div>`;
 }
 
@@ -89,7 +115,7 @@ ${og}
 <link rel="icon" href="/assets/branding/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Manrope:wght@300;400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Manrope:wght@300;400;500;600&display=swap">
 <script>${JS_FLAG}</script>
 <link rel="stylesheet" href="/assets/css/main.css?v=${VERSION}">
 ${home ? jsonLd(lang) : ''}
@@ -126,7 +152,8 @@ function header(lang, altPath) {
         ? `<span class="lang-opt is-active" aria-current="true" lang="${T[l].htmlLang}">${l.toUpperCase()}</span>`
         : `<a class="lang-opt" href="${altPath}" hreflang="${T[l].htmlLang}" lang="${T[l].htmlLang}" data-lang="${l}" title="${T[l].langName}">${l.toUpperCase()}</a>`).join('<span class="lang-sep" aria-hidden="true">/</span>')}
     </div>`;
-  return `<a class="skip" href="#main">${L.skip}</a>
+  return `${MOONS_SPRITE}
+<a class="skip" href="#main">${L.skip}</a>
 <header class="hdr" data-hdr>
   <div class="container hdr-in">
     <a class="brand" href="${h}#home" aria-label="${C.brand} — ${N.home}">${wordmark()}</a>
@@ -208,7 +235,7 @@ function hero(L) {
       </div>
     </div>
     <div class="hero-media">
-      <div class="hero-frame">${picture(C.portraits.hero, H.photo, 'hero-img', { eager: true })}</div>
+      <div class="hero-frame">${picture(C.portraits.hero, H.photo, 'hero-img', { eager: true, sizes: '(min-width: 900px) 520px, 100vw' })}</div>
       <p class="hero-loc"><span>${H.locations}</span><span>${H.city}</span></p>
     </div>
   </div>
@@ -222,8 +249,8 @@ function about(L) {
   return `<section class="sec about" id="about" aria-labelledby="about-title">
   <div class="container about-grid">
     <div class="about-media" data-reveal>
-      <div class="about-main">${picture(C.portraits.about, A.photo, 'about-img')}</div>
-      <div class="about-detail">${picture(C.portraits.aboutDetail, A.photo2, 'about-img', { variant: 'detail' })}</div>
+      <div class="about-main">${picture(C.portraits.about, A.photo, 'about-img', { sizes: '(min-width: 900px) 40vw, 90vw' })}</div>
+      <div class="about-detail">${picture(C.portraits.aboutDetail, A.photo2, 'about-img', { variant: 'detail', sizes: '(min-width: 900px) 18vw, 40vw' })}</div>
       <span class="about-badge" aria-hidden="true">Est.<br>London</span>
     </div>
     <div class="about-copy">
@@ -251,7 +278,7 @@ function treatmentsSec(lang, L) {
         : `<a class="tlink tlink--wa" href="${wa(fill(R.wa, { t: d.name }))}" target="_blank" rel="noopener">${I.wa}<span>${R.enquire}</span></a>
            <a class="tlink" href="#consultation" data-treatment="${x.id}"><span>${R.book}</span>${I.arrow}</a>`;
       const media = x.img
-        ? `<img src="${x.img}" alt="${esc(d.name)}" loading="lazy" decoding="async">`
+        ? img(x.img, `${d.name} — Rafa Boni Aesthetics`, '', { sizes: '(min-width: 900px) 400px, (min-width: 560px) 50vw, 100vw' })
         : `<div class="tcard-art tcard-art--${c.id}" role="img" aria-label="${esc(d.name)} — ${esc(R.photo)}" data-placeholder>${CAT_ICON[c.id]}</div>`;
       return `<article class="tcard${x.consultationOnly ? ' tcard--consult' : ''}" data-cat="${c.id}" id="t-${x.id}" data-reveal>
         <div class="tcard-media">${media}<span class="tcard-n">${pad(n)}</span>${x.consultationOnly ? `<span class="tcard-flag">${R.consultOnly}</span>` : ''}</div>
@@ -374,7 +401,7 @@ function whySec(L) {
 
 function philosophySec(L) {
   const P = L.philosophy;
-  const bg = C.portraits.philosophy ? `<img class="philo-bg" src="${C.portraits.philosophy}" alt="" loading="lazy" decoding="async">` : '<div class="philo-bg philo-bg--ph" aria-hidden="true"></div>';
+  const bg = C.portraits.philosophy ? img(C.portraits.philosophy, '', 'philo-bg') : '<div class="philo-bg philo-bg--ph" aria-hidden="true"></div>';
   return `<section class="philo" aria-labelledby="philo-title">
   ${bg}
   <div class="container philo-in">
