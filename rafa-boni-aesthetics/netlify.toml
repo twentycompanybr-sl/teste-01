@@ -1,0 +1,7 @@
+# Deploy settings — in Netlify, set "Base directory" to: rafa-boni-aesthetics
+[build]
+  command = "node src/build.mjs"
+  publish = "site"
+
+[build.environment]
+  NODE_VERSION = "20"
