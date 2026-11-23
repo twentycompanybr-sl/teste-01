@@ -241,7 +241,7 @@ function hero(L) {
   <div class="hero-bg" aria-hidden="true">
     <span class="aurora a1"></span><span class="aurora a2"></span><span class="aurora a3"></span>
     <span class="hero-glow"></span>
-    <svg class="hero-moons" viewBox="0 0 232 40"><use href="#rb-moons"/></svg>
+    <div class="hero-logo-bg"><img src="/assets/logo/rafa-boni-logo-800.webp" srcset="/assets/logo/rafa-boni-logo-800.webp 800w, /assets/logo/rafa-boni-logo-1600.webp 1586w" sizes="(min-width: 900px) 70vw, 130vw" width="1586" height="768" alt="" decoding="async" fetchpriority="low"></div>
     ${sparks.map(([x, y, s, d]) => `<span class="spark" style="left:${x}%;top:${y}%;width:${s}px;height:${s}px;--sd:${d}s">${star}</span>`).join('')}
     <span class="grain"></span>
   </div>
