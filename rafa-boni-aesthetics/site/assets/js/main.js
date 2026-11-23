@@ -39,6 +39,21 @@
     };
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
+
+    // mobile booking bar: visible after the first screen, hidden over the form and the footer
+    var mbar = $('[data-mbar]');
+    if (mbar) {
+      var blockers = $$('#consultation, .ftr'), blocked = {};
+      var syncBar = function () {
+        var any = Object.keys(blocked).some(function (k) { return blocked[k]; });
+        mbar.classList.toggle('is-on', window.scrollY > window.innerHeight * 0.6 && !any && !document.body.classList.contains('menu-open'));
+      };
+      if ('IntersectionObserver' in window) {
+        var bio = new IntersectionObserver(function (es) { es.forEach(function (e) { blocked[e.target.className + (e.target.id || '')] = e.isIntersecting; }); syncBar(); }, { threshold: 0.05 });
+        blockers.forEach(function (b) { bio.observe(b); });
+      }
+      window.addEventListener('scroll', syncBar, { passive: true }); syncBar();
+    }
     if (hdr) hdr.addEventListener('focusin', function () { hdr.classList.remove('is-hidden'); });
 
     /* mobile menu */

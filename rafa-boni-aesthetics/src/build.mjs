@@ -1,6 +1,6 @@
 // Static site generator for Rafa Boni Aesthetics (no dependencies).
 // Usage: node src/build.mjs   → writes HTML, sitemap.xml and robots.txt into /site
-import { writeFileSync, mkdirSync, existsSync } from 'node:fs';
+import { writeFileSync, mkdirSync, existsSync, readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -9,11 +9,22 @@ import { t as T, routes } from './i18n.mjs';
 import { legal } from './legal.mjs';
 import { PAY } from './payment-icons.mjs';
 import { pages as TP, pageUi as TPU, slugs as TSLUG } from './treatment-pages.mjs';
+import { articles as ART, journalUi as JU } from './journal.mjs';
+const artUrl = (lang, a) => JU[lang].base + a.slugs[lang] + '/';
+const fmtDate = (lang, d) => new Date(d + 'T12:00:00Z').toLocaleDateString(lang === 'pt' ? 'pt-BR' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 const tpUrl = (lang, id) => (TSLUG[id] ? TPU[lang].base + TSLUG[id][lang] + '/' : null);
 
 const OUT = join(dirname(fileURLToPath(import.meta.url)), '..', 'site');
 const LANGS = ['en', 'pt'];
 const VERSION = Date.now().toString(36);
+function minifyCss(css) {
+  const out = []; let i = 0;
+  const re = /("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')/g; let m; let last = 0;
+  const squash = (t) => t.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\s+/g, ' ').replace(/\s*([{};,>])\s*/g, '$1').replace(/;}/g, '}');
+  while ((m = re.exec(css))) { out.push(squash(css.slice(last, m.index)), m[0]); last = re.lastIndex; }
+  out.push(squash(css.slice(last)));
+  return out.join('').trim();
+}
 const JS_FLAG = "var d=document.documentElement;d.classList.add('js');try{if(sessionStorage.getItem('rb-seen'))d.classList.add('seen');else sessionStorage.setItem('rb-seen','1')}catch(e){d.classList.add('seen')}";
 const sha = (s) => `'sha256-${createHash('sha256').update(s).digest('base64')}'`;
 
@@ -78,7 +89,7 @@ function logoImg(cls = '', sizes = '130px', eager = true) {
 function wordmark(cls = '') {
   // the original artwork is dark-on-light; on dark backgrounds use the light SVG version
   if (C.logo && !cls.includes('light')) return logoImg(cls);
-  return `<span class="wordmark ${cls}"><svg class="wm-moons" viewBox="0 0 232 40" aria-hidden="true"><use href="#rb-moons"/></svg><span class="wm-main">Rafa Boni</span><span class="wm-sub">Aesthetics</span></span>`;
+  return `<span class="wordmark ${cls}"><svg class="wm-moons" viewBox="0 0 232 40" aria-hidden="true"><use href="#rb-moons"/></svg><span class="wm-main">Rafa Boni</span> <span class="wm-sub">Aesthetics</span></span>`;
 }
 
 // image or elegant placeholder
@@ -123,11 +134,10 @@ ${og}
 <meta name="theme-color" content="#F8F5F0">
 <link rel="icon" href="/assets/branding/favicon-64.png" type="image/png" sizes="64x64">
 <link rel="apple-touch-icon" href="/assets/branding/apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Manrope:wght@300;400;500;600&display=swap">
+<link rel="preload" href="/assets/fonts/manrope-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/bodoni-moda-latin-standard-normal.woff2" as="font" type="font/woff2" crossorigin>
 <script>${JS_FLAG}</script>
-<link rel="stylesheet" href="/assets/css/main.css?v=${VERSION}">
+<link rel="stylesheet" href="/assets/css/main.min.css?v=${VERSION}">
 ${home ? jsonLd(lang) + faqJsonLd(T[lang]) : ''}${ld}
 <script src="/assets/js/main.js?v=${VERSION}" defer></script>
 </head>`;
@@ -167,7 +177,7 @@ function header(lang, altPath) {
 <header class="hdr" data-hdr>
   <span class="progress" data-progress aria-hidden="true"></span>
   <div class="container hdr-in">
-    <a class="brand" href="${h}#home" aria-label="${C.brand} — ${N.home}">${wordmark()}</a>
+    <a class="brand" href="${h}#home">${wordmark()}</a>
     <nav class="nav" aria-label="Main"><ul>${items}</ul></nav>
     <div class="hdr-actions">
       ${langSwitch('lang--hdr')}
@@ -188,7 +198,7 @@ function header(lang, altPath) {
 </div>`;
 }
 
-function footer(lang) {
+function footer(lang, bookHref) {
   const L = T[lang], F = L.footer, N = L.nav, h = routes[lang].home, Ct = L.contact;
   return `<footer class="ftr">
   <div class="container">
@@ -205,6 +215,7 @@ function footer(lang) {
       <div class="ftr-col"><h2>${F.explore}</h2><ul>
         ${['about', 'treatments', 'results', 'reviews', 'contact'].map((k) => `<li><a href="${h}#${k}">${N[k]}</a></li>`).join('')}
         <li><a href="${h}#faq">FAQ</a></li>
+        <li><a href="${JU[lang].base}">${JU[lang].name}</a></li>
         <li><a href="${h}#consultation">${N.book}</a></li></ul></div>
       <div class="ftr-col"><h2>${F.contact}</h2><ul>
         <li><a href="${wa(Ct.waText)}" target="_blank" rel="noopener">${C.whatsappDisplay}</a></li>
@@ -222,7 +233,11 @@ function footer(lang) {
     </div>
   </div>
 </footer>
-<a class="wa-float" href="${wa(Ct.waText)}" target="_blank" rel="noopener" aria-label="${L.waFloat}">${I.wa}</a>`;
+<a class="wa-float" href="${wa(Ct.waText)}" target="_blank" rel="noopener" aria-label="${L.waFloat}">${I.wa}</a>
+<div class="mbar" data-mbar>
+  <a class="mbar-book" href="${bookHref || h + '#consultation'}"><span>${N.book}</span>${I.arrow}</a>
+  <a class="mbar-wa" href="${wa(Ct.waText)}" target="_blank" rel="noopener" aria-label="${L.waFloat}">${I.wa}<span>WhatsApp</span></a>
+</div>`;
 }
 
 const sectionHead = (eyebrow, title, intro = '', cls = '') => `<div class="sec-head ${cls}">
@@ -245,7 +260,7 @@ function hero(L) {
   <div class="hero-bg" aria-hidden="true">
     <span class="aurora a1"></span><span class="aurora a2"></span><span class="aurora a3"></span>
     <span class="hero-glow"></span>
-    <div class="hero-logo-bg"><img src="/assets/logo/rafa-boni-logo-800.webp" srcset="/assets/logo/rafa-boni-logo-800.webp 800w, /assets/logo/rafa-boni-logo-1600.webp 1586w" sizes="(min-width: 900px) 70vw, 130vw" width="1586" height="768" alt="" decoding="async" fetchpriority="low"></div>
+    <div class="hero-logo-bg"><picture><source media="(min-width: 900px)" srcset="/assets/logo/rafa-boni-logo-800.webp 800w, /assets/logo/rafa-boni-logo-1600.webp 1586w" sizes="62vw"><img src="/assets/logo/rafa-boni-logo-800.webp" width="1586" height="768" alt="" decoding="async" fetchpriority="low"></picture></div>
     ${sparks.map(([x, y, s, d]) => `<span class="spark" style="left:${x}%;top:${y}%;width:${s}px;height:${s}px;--sd:${d}s">${star}</span>`).join('')}
     <span class="grain"></span>
   </div>
@@ -346,6 +361,12 @@ const LIVE_RESULTS = results.map((r) => {
   return [r.before, r.after].every((p) => p && existsSync(join(OUT, p))) ? r : null;
 }).filter(Boolean);
 
+function baSrcset(src, sizes) {
+  const base = src.replace(/\.[a-zA-Z]+$/, '');
+  const ws = [640, 1000].filter((w) => existsSync(join(OUT, `${base}-${w}.webp`)));
+  return ws.length ? ` srcset="${ws.map((w) => `${base}-${w}.webp ${w}w`).join(', ')}" sizes="${sizes}"` : '';
+}
+
 function resultsSec(lang, L) {
   const R = L.results;
   const results = LIVE_RESULTS;
@@ -360,7 +381,7 @@ function resultsSec(lang, L) {
     </div>
     <div class="ba-grid" data-ba-grid>
       ${results.map((r, i) => r.image ? `<figure class="ba ba--single" data-cat="${r.treatment}" data-index="${i}" data-reveal>
-        <div class="ba-stage ba-stage--single"><img src="${r.image}" alt="${esc(r[lang].alt)}" loading="lazy" decoding="async"></div>
+        <div class="ba-stage ba-stage--single"><img src="${r.image}"${baSrcset(r.image, '(min-width: 900px) 600px, 92vw')} alt="${esc(r[lang].alt)}" loading="lazy" decoding="async"></div>
         <figcaption><span>${r[lang].caption}</span><button type="button" class="ba-zoom" data-zoom="${i}">${I.expand}<span class="sr">${R.enlarge}</span></button></figcaption>
       </figure>` : `<figure class="ba" data-cat="${r.treatment}" data-index="${i}" data-reveal>
         <div class="ba-stage" data-ba style="--pos:50%">
@@ -667,7 +688,9 @@ ${header(lang, tpUrl(other, id))}
         <h2 class="tp-h" data-reveal>${U.how}</h2>
         <ol class="steps tp-steps">${steps}</ol>
         ${result ? `<h2 class="tp-h" data-reveal>${U.results}</h2>
-        <figure class="tp-result" data-reveal><img src="${result.image}" alt="${esc(result[lang].alt)}" loading="lazy" decoding="async"><figcaption>${result[lang].caption}</figcaption></figure>` : ''}
+        <figure class="tp-result" data-reveal><img src="${result.image}"${baSrcset(result.image, '(min-width: 600px) 520px, 92vw')} alt="${esc(result[lang].alt)}" loading="lazy" decoding="async"><figcaption>${result[lang].caption}</figcaption></figure>` : ''}
+        ${(() => { const rel = ART.filter((a) => a.related.includes(id)); return rel.length ? `<h2 class="tp-h" data-reveal>${JU[lang].more}</h2>
+        <ul class="tp-articles">${rel.map((a) => `<li data-reveal><a href="${artUrl(lang, a)}"><strong>${a[lang].title}</strong><span>${JU[lang].read} ${I.arrow}</span></a></li>`).join('')}</ul>` : ''; })()}
         <p class="fineprint" data-reveal>${U.note}</p>
       </div>
       <aside class="tp-aside">
@@ -700,6 +723,91 @@ ${header(lang, tpUrl(other, id))}
       <div class="btn-row tp-cta-btns"><a class="btn btn--fill-light" href="${book}"><span>${U.book}</span>${I.arrow}</a><a class="btn btn--ghost-l" href="${waHref}" target="_blank" rel="noopener">${I.wa}<span>${U.wa}</span></a></div>
     </div>
   </section>
+</main>
+${footer(lang, book)}
+</body>
+</html>
+`;
+}
+
+function articleCard(lang, a, i = 0) {
+  const J = JU[lang];
+  return `<li data-reveal style="--d:${i * 0.06}s"><a class="jcard" href="${artUrl(lang, a)}">
+    <span class="jcard-meta">${fmtDate(lang, a.date)} · ${a.mins} ${J.mins}</span>
+    <strong class="jcard-title">${a[lang].title}</strong>
+    <span class="jcard-desc">${a[lang].desc}</span>
+    <span class="jcard-go">${J.read} ${I.arrow}</span></a></li>`;
+}
+
+function journalIndex(lang) {
+  const J = JU[lang], other = lang === 'en' ? 'pt' : 'en';
+  return `${head(lang, { title: J.metaTitle, desc: J.metaDesc, path: J.base, alt: JU[other].base })}
+<body data-lang="${lang}" class="page-journal">
+${header(lang, JU[other].base)}
+<main id="main" class="journal">
+  <section class="tp-hero j-hero" data-hero>
+    <div class="hero-bg" aria-hidden="true"><span class="aurora a1"></span><span class="aurora a2"></span><span class="hero-glow"></span><span class="grain"></span></div>
+    <div class="container">
+      <p class="eyebrow hero-in" style="--d:.1s">${J.eyebrow}</p>
+      <h1 class="h1 tp-title hero-in" style="--d:.2s">${J.title}</h1>
+      <p class="lead hero-in" style="--d:.32s">${J.intro}</p>
+    </div>
+  </section>
+  <section class="sec"><div class="container"><ul class="jgrid">${ART.map((a, i) => articleCard(lang, a, i)).join('')}</ul></div></section>
+</main>
+${footer(lang)}
+</body>
+</html>
+`;
+}
+
+function articlePage(lang, a) {
+  const J = JU[lang], A = a[lang], other = lang === 'en' ? 'pt' : 'en', h = routes[lang].home;
+  const path = artUrl(lang, a);
+  const ld = `<script type="application/ld+json">${JSON.stringify([
+    { '@context': 'https://schema.org', '@type': 'BlogPosting', headline: A.title, description: A.desc, datePublished: a.date, dateModified: a.date,
+      inLanguage: T[lang].htmlLang, mainEntityOfPage: abs(path),
+      author: { '@type': 'Organization', name: C.brand, url: abs(h) }, publisher: { '@type': 'Organization', name: C.brand, url: abs(h) },
+      ...(C.ogImage ? { image: abs(C.ogImage) } : {}) },
+    { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+      { '@type': 'ListItem', position: 1, name: TPU[lang].crumbHome, item: abs(h) },
+      { '@type': 'ListItem', position: 2, name: J.name, item: abs(J.base) },
+      { '@type': 'ListItem', position: 3, name: A.title, item: abs(path) }] },
+  ])}</script>`;
+  const rel = a.related.filter((id) => TSLUG[id]).map((id) => treatments.find((t) => t.id === id));
+  const more = ART.filter((x) => x.id !== a.id);
+  return `${head(lang, { title: `${A.title} | ${C.brand}`, desc: A.desc, path, alt: artUrl(other, a), ld })}
+<body data-lang="${lang}" class="page-article">
+${header(lang, artUrl(other, a))}
+<main id="main" class="article">
+  <section class="tp-hero a-hero" data-hero>
+    <div class="hero-bg" aria-hidden="true"><span class="aurora a1"></span><span class="aurora a2"></span><span class="hero-glow"></span><span class="grain"></span></div>
+    <div class="container a-hero-in">
+      <nav class="crumbs hero-in" style="--d:.05s" aria-label="Breadcrumb"><a href="${h}">${TPU[lang].crumbHome}</a><span aria-hidden="true">/</span><a href="${J.base}">${J.name}</a></nav>
+      <p class="eyebrow hero-in" style="--d:.1s">${fmtDate(lang, a.date)} · ${a.mins} ${J.mins}</p>
+      <h1 class="h1 a-title hero-in" style="--d:.2s">${A.title}</h1>
+      <p class="lead hero-in" style="--d:.32s">${A.desc}</p>
+    </div>
+  </section>
+  <section class="sec a-body">
+    <div class="container a-grid">
+      <article class="prose a-prose">${A.body}
+        <p class="fineprint">${J.note}</p>
+      </article>
+      <aside class="a-aside">
+        ${rel.length ? `<div class="tp-card"><h2 class="tp-h tp-h--sm">${J.related}</h2><ul class="a-rel">${rel.map((t) => `<li><a href="${tpUrl(lang, t.id)}"><span>${t[lang].name}</span>${I.arrow}</a></li>`).join('')}</ul>
+        <a class="btn btn--dark btn--block" href="${h}#consultation"><span>${T[lang].nav.book}</span>${I.arrow}</a></div>` : ''}
+      </aside>
+    </div>
+  </section>
+  <section class="sec tp-related"><div class="container">
+    <div class="tp-related-head"><h2 class="h2" data-reveal>${J.more}</h2><a class="tlink" href="${J.base}" data-reveal><span>${J.back}</span>${I.arrow}</a></div>
+    <ul class="jgrid">${more.map((x, i) => articleCard(lang, x, i)).join('')}</ul>
+  </div></section>
+  <section class="band tp-cta"><div class="container" data-reveal>
+    <h2 class="h2">${J.ctaTitle}</h2><p>${J.ctaText}</p>
+    <div class="btn-row tp-cta-btns"><a class="btn btn--fill-light" href="${h}#consultation"><span>${T[lang].nav.book}</span>${I.arrow}</a><a class="btn btn--ghost-l" href="${wa(T[lang].contact.waText)}" target="_blank" rel="noopener">${I.wa}<span>WhatsApp</span></a></div>
+  </div></section>
 </main>
 ${footer(lang)}
 </body>
@@ -798,6 +906,15 @@ function sitemap() {
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 ${urls}
 ${tUrls}
+${[{ en: JU.en.base, pt: JU.pt.base, f: 'weekly', p: '0.6' }, ...ART.map((a) => ({ en: artUrl('en', a), pt: artUrl('pt', a), f: 'monthly', p: '0.6' }))].flatMap((u) => LANGS.map((l) => `  <url>
+    <loc>${abs(u[l])}</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>${u.f}</changefreq>
+    <priority>${u.p}</priority>
+    <xhtml:link rel="alternate" hreflang="en-GB" href="${abs(u.en)}"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="${abs(u.pt)}"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="${abs(u.en)}"/>
+  </url>`)).join('\n')}
 </urlset>
 `;
 }
@@ -808,16 +925,19 @@ for (const l of LANGS) {
   write(routes[l].privacy + 'index.html', legalPage(l, 'privacy'));
   write(routes[l].terms + 'index.html', legalPage(l, 'terms'));
   for (const id of Object.keys(TSLUG)) write(tpUrl(l, id) + 'index.html', treatmentPage(l, id));
+  write(JU[l].base + 'index.html', journalIndex(l));
+  for (const a of ART) write(artUrl(l, a) + 'index.html', articlePage(l, a));
 }
 write('index.html', rootPage());
 write('404.html', notFoundPage());
 write('sitemap.xml', sitemap());
 write('robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${abs('/sitemap.xml')}\n`);
+writeFileSync(join(OUT, 'assets/css/main.min.css'), minifyCss(readFileSync(join(OUT, 'assets/css/main.css'), 'utf8')));
 const csp = [
   "default-src 'self'",
   `script-src 'self' ${sha(JS_FLAG)}`,
-  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-  "font-src 'self' https://fonts.gstatic.com",
+  "style-src 'self' 'unsafe-inline'",
+  "font-src 'self'",
   "img-src 'self' data:",
   "connect-src 'self'",
   "form-action 'self'",
@@ -860,4 +980,4 @@ const vercel = {
   ],
 };
 writeFileSync(join(OUT, '..', 'vercel.json'), JSON.stringify(vercel, null, 2) + '\n');
-console.log(`Built ${LANGS.length * (3 + Object.keys(TSLUG).length) + 2} pages for ${C.siteUrl}`);
+console.log(`Built ${LANGS.length * (4 + Object.keys(TSLUG).length + ART.length) + 2} pages for ${C.siteUrl}`);

@@ -23,10 +23,10 @@ export const config = {
   // Format: { src: base path (files are <src>-<width>.webp), widths: [...], w, h (largest size), pos: CSS object-position }
   // Original logo (transparent background, generated from the client's artwork).
   // null → falls back to the SVG moon-phase mark + wordmark (still used on dark backgrounds).
-  logo: { src: '/assets/logo/rafa-boni-logo', widths: [360, 720], w: 794, h: 384 },
+  logo: { src: '/assets/logo/rafa-boni-logo', widths: [260, 360, 720], w: 794, h: 384 },
   ogImage: '/assets/branding/og-image.jpg',
   portraits: {
-    hero: { src: '/assets/portraits/rafaela-treatment-hero', widths: [640, 1035], w: 1035, h: 1520, pos: '50% 22%' },
+    hero: { src: '/assets/portraits/rafaela-treatment-hero', widths: [640, 800, 1035], w: 1035, h: 1520, pos: '50% 22%' },
     about: { src: '/assets/portraits/rafaela-portrait', widths: [700, 1200], w: 1200, h: 1162, pos: '64% 50%' },
     aboutDetail: { src: '/assets/treatments/microneedling-logo-wall', widths: [560, 825], w: 825, h: 1600, pos: '50% 10%' },
     philosophy: { src: '/assets/treatments/prp-hair', widths: [640, 1000], w: 1000, h: 1573, pos: '50% 40%' },
