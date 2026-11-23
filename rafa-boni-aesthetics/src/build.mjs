@@ -9,6 +9,9 @@ import { t as T, routes } from './i18n.mjs';
 import { legal } from './legal.mjs';
 import { PAY } from './payment-icons.mjs';
 import { pages as TP, pageUi as TPU, slugs as TSLUG } from './treatment-pages.mjs';
+import { articles as ART, journalUi as JU } from './journal.mjs';
+const artUrl = (lang, a) => JU[lang].base + a.slugs[lang] + '/';
+const fmtDate = (lang, d) => new Date(d + 'T12:00:00Z').toLocaleDateString(lang === 'pt' ? 'pt-BR' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 const tpUrl = (lang, id) => (TSLUG[id] ? TPU[lang].base + TSLUG[id][lang] + '/' : null);
 
 const OUT = join(dirname(fileURLToPath(import.meta.url)), '..', 'site');
@@ -212,6 +215,7 @@ function footer(lang, bookHref) {
       <div class="ftr-col"><h2>${F.explore}</h2><ul>
         ${['about', 'treatments', 'results', 'reviews', 'contact'].map((k) => `<li><a href="${h}#${k}">${N[k]}</a></li>`).join('')}
         <li><a href="${h}#faq">FAQ</a></li>
+        <li><a href="${JU[lang].base}">${JU[lang].name}</a></li>
         <li><a href="${h}#consultation">${N.book}</a></li></ul></div>
       <div class="ftr-col"><h2>${F.contact}</h2><ul>
         <li><a href="${wa(Ct.waText)}" target="_blank" rel="noopener">${C.whatsappDisplay}</a></li>
@@ -685,6 +689,8 @@ ${header(lang, tpUrl(other, id))}
         <ol class="steps tp-steps">${steps}</ol>
         ${result ? `<h2 class="tp-h" data-reveal>${U.results}</h2>
         <figure class="tp-result" data-reveal><img src="${result.image}"${baSrcset(result.image, '(min-width: 600px) 520px, 92vw')} alt="${esc(result[lang].alt)}" loading="lazy" decoding="async"><figcaption>${result[lang].caption}</figcaption></figure>` : ''}
+        ${(() => { const rel = ART.filter((a) => a.related.includes(id)); return rel.length ? `<h2 class="tp-h" data-reveal>${JU[lang].more}</h2>
+        <ul class="tp-articles">${rel.map((a) => `<li data-reveal><a href="${artUrl(lang, a)}"><strong>${a[lang].title}</strong><span>${JU[lang].read} ${I.arrow}</span></a></li>`).join('')}</ul>` : ''; })()}
         <p class="fineprint" data-reveal>${U.note}</p>
       </div>
       <aside class="tp-aside">
@@ -719,6 +725,91 @@ ${header(lang, tpUrl(other, id))}
   </section>
 </main>
 ${footer(lang, book)}
+</body>
+</html>
+`;
+}
+
+function articleCard(lang, a, i = 0) {
+  const J = JU[lang];
+  return `<li data-reveal style="--d:${i * 0.06}s"><a class="jcard" href="${artUrl(lang, a)}">
+    <span class="jcard-meta">${fmtDate(lang, a.date)} · ${a.mins} ${J.mins}</span>
+    <strong class="jcard-title">${a[lang].title}</strong>
+    <span class="jcard-desc">${a[lang].desc}</span>
+    <span class="jcard-go">${J.read} ${I.arrow}</span></a></li>`;
+}
+
+function journalIndex(lang) {
+  const J = JU[lang], other = lang === 'en' ? 'pt' : 'en';
+  return `${head(lang, { title: J.metaTitle, desc: J.metaDesc, path: J.base, alt: JU[other].base })}
+<body data-lang="${lang}" class="page-journal">
+${header(lang, JU[other].base)}
+<main id="main" class="journal">
+  <section class="tp-hero j-hero" data-hero>
+    <div class="hero-bg" aria-hidden="true"><span class="aurora a1"></span><span class="aurora a2"></span><span class="hero-glow"></span><span class="grain"></span></div>
+    <div class="container">
+      <p class="eyebrow hero-in" style="--d:.1s">${J.eyebrow}</p>
+      <h1 class="h1 tp-title hero-in" style="--d:.2s">${J.title}</h1>
+      <p class="lead hero-in" style="--d:.32s">${J.intro}</p>
+    </div>
+  </section>
+  <section class="sec"><div class="container"><ul class="jgrid">${ART.map((a, i) => articleCard(lang, a, i)).join('')}</ul></div></section>
+</main>
+${footer(lang)}
+</body>
+</html>
+`;
+}
+
+function articlePage(lang, a) {
+  const J = JU[lang], A = a[lang], other = lang === 'en' ? 'pt' : 'en', h = routes[lang].home;
+  const path = artUrl(lang, a);
+  const ld = `<script type="application/ld+json">${JSON.stringify([
+    { '@context': 'https://schema.org', '@type': 'BlogPosting', headline: A.title, description: A.desc, datePublished: a.date, dateModified: a.date,
+      inLanguage: T[lang].htmlLang, mainEntityOfPage: abs(path),
+      author: { '@type': 'Organization', name: C.brand, url: abs(h) }, publisher: { '@type': 'Organization', name: C.brand, url: abs(h) },
+      ...(C.ogImage ? { image: abs(C.ogImage) } : {}) },
+    { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+      { '@type': 'ListItem', position: 1, name: TPU[lang].crumbHome, item: abs(h) },
+      { '@type': 'ListItem', position: 2, name: J.name, item: abs(J.base) },
+      { '@type': 'ListItem', position: 3, name: A.title, item: abs(path) }] },
+  ])}</script>`;
+  const rel = a.related.filter((id) => TSLUG[id]).map((id) => treatments.find((t) => t.id === id));
+  const more = ART.filter((x) => x.id !== a.id);
+  return `${head(lang, { title: `${A.title} | ${C.brand}`, desc: A.desc, path, alt: artUrl(other, a), ld })}
+<body data-lang="${lang}" class="page-article">
+${header(lang, artUrl(other, a))}
+<main id="main" class="article">
+  <section class="tp-hero a-hero" data-hero>
+    <div class="hero-bg" aria-hidden="true"><span class="aurora a1"></span><span class="aurora a2"></span><span class="hero-glow"></span><span class="grain"></span></div>
+    <div class="container a-hero-in">
+      <nav class="crumbs hero-in" style="--d:.05s" aria-label="Breadcrumb"><a href="${h}">${TPU[lang].crumbHome}</a><span aria-hidden="true">/</span><a href="${J.base}">${J.name}</a></nav>
+      <p class="eyebrow hero-in" style="--d:.1s">${fmtDate(lang, a.date)} · ${a.mins} ${J.mins}</p>
+      <h1 class="h1 a-title hero-in" style="--d:.2s">${A.title}</h1>
+      <p class="lead hero-in" style="--d:.32s">${A.desc}</p>
+    </div>
+  </section>
+  <section class="sec a-body">
+    <div class="container a-grid">
+      <article class="prose a-prose">${A.body}
+        <p class="fineprint">${J.note}</p>
+      </article>
+      <aside class="a-aside">
+        ${rel.length ? `<div class="tp-card"><h2 class="tp-h tp-h--sm">${J.related}</h2><ul class="a-rel">${rel.map((t) => `<li><a href="${tpUrl(lang, t.id)}"><span>${t[lang].name}</span>${I.arrow}</a></li>`).join('')}</ul>
+        <a class="btn btn--dark btn--block" href="${h}#consultation"><span>${T[lang].nav.book}</span>${I.arrow}</a></div>` : ''}
+      </aside>
+    </div>
+  </section>
+  <section class="sec tp-related"><div class="container">
+    <div class="tp-related-head"><h2 class="h2" data-reveal>${J.more}</h2><a class="tlink" href="${J.base}" data-reveal><span>${J.back}</span>${I.arrow}</a></div>
+    <ul class="jgrid">${more.map((x, i) => articleCard(lang, x, i)).join('')}</ul>
+  </div></section>
+  <section class="band tp-cta"><div class="container" data-reveal>
+    <h2 class="h2">${J.ctaTitle}</h2><p>${J.ctaText}</p>
+    <div class="btn-row tp-cta-btns"><a class="btn btn--fill-light" href="${h}#consultation"><span>${T[lang].nav.book}</span>${I.arrow}</a><a class="btn btn--ghost-l" href="${wa(T[lang].contact.waText)}" target="_blank" rel="noopener">${I.wa}<span>WhatsApp</span></a></div>
+  </div></section>
+</main>
+${footer(lang)}
 </body>
 </html>
 `;
@@ -815,6 +906,15 @@ function sitemap() {
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 ${urls}
 ${tUrls}
+${[{ en: JU.en.base, pt: JU.pt.base, f: 'weekly', p: '0.6' }, ...ART.map((a) => ({ en: artUrl('en', a), pt: artUrl('pt', a), f: 'monthly', p: '0.6' }))].flatMap((u) => LANGS.map((l) => `  <url>
+    <loc>${abs(u[l])}</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>${u.f}</changefreq>
+    <priority>${u.p}</priority>
+    <xhtml:link rel="alternate" hreflang="en-GB" href="${abs(u.en)}"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="${abs(u.pt)}"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="${abs(u.en)}"/>
+  </url>`)).join('\n')}
 </urlset>
 `;
 }
@@ -825,6 +925,8 @@ for (const l of LANGS) {
   write(routes[l].privacy + 'index.html', legalPage(l, 'privacy'));
   write(routes[l].terms + 'index.html', legalPage(l, 'terms'));
   for (const id of Object.keys(TSLUG)) write(tpUrl(l, id) + 'index.html', treatmentPage(l, id));
+  write(JU[l].base + 'index.html', journalIndex(l));
+  for (const a of ART) write(artUrl(l, a) + 'index.html', articlePage(l, a));
 }
 write('index.html', rootPage());
 write('404.html', notFoundPage());
@@ -878,4 +980,4 @@ const vercel = {
   ],
 };
 writeFileSync(join(OUT, '..', 'vercel.json'), JSON.stringify(vercel, null, 2) + '\n');
-console.log(`Built ${LANGS.length * (3 + Object.keys(TSLUG).length) + 2} pages for ${C.siteUrl}`);
+console.log(`Built ${LANGS.length * (4 + Object.keys(TSLUG).length + ART.length) + 2} pages for ${C.siteUrl}`);

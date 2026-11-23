@@ -288,4 +288,76 @@
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://rafa-boni-aesthetics.vercel.app/pt/tratamentos/remocao-tatuagem-pigmentacao/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/tattoo-pigmentation-removal/"/>
   </url>
+  <url>
+    <loc>https://rafa-boni-aesthetics.vercel.app/en/journal/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://rafa-boni-aesthetics.vercel.app/en/journal/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://rafa-boni-aesthetics.vercel.app/pt/blog/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rafa-boni-aesthetics.vercel.app/en/journal/"/>
+  </url>
+  <url>
+    <loc>https://rafa-boni-aesthetics.vercel.app/pt/blog/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://rafa-boni-aesthetics.vercel.app/en/journal/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://rafa-boni-aesthetics.vercel.app/pt/blog/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rafa-boni-aesthetics.vercel.app/en/journal/"/>
+  </url>
+  <url>
+    <loc>https://rafa-boni-aesthetics.vercel.app/en/journal/what-is-pdrn/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://rafa-boni-aesthetics.vercel.app/en/journal/what-is-pdrn/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://rafa-boni-aesthetics.vercel.app/pt/blog/o-que-e-pdrn/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rafa-boni-aesthetics.vercel.app/en/journal/what-is-pdrn/"/>
+  </url>
+  <url>
+    <loc>https://rafa-boni-aesthetics.vercel.app/pt/blog/o-que-e-pdrn/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://rafa-boni-aesthetics.vercel.app/en/journal/what-is-pdrn/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://rafa-boni-aesthetics.vercel.app/pt/blog/o-que-e-pdrn/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rafa-boni-aesthetics.vercel.app/en/journal/what-is-pdrn/"/>
+  </url>
+  <url>
+    <loc>https://rafa-boni-aesthetics.vercel.app/en/journal/winter-skincare-london/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://rafa-boni-aesthetics.vercel.app/en/journal/winter-skincare-london/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://rafa-boni-aesthetics.vercel.app/pt/blog/cuidados-pele-inverno-londres/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rafa-boni-aesthetics.vercel.app/en/journal/winter-skincare-london/"/>
+  </url>
+  <url>
+    <loc>https://rafa-boni-aesthetics.vercel.app/pt/blog/cuidados-pele-inverno-londres/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://rafa-boni-aesthetics.vercel.app/en/journal/winter-skincare-london/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://rafa-boni-aesthetics.vercel.app/pt/blog/cuidados-pele-inverno-londres/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rafa-boni-aesthetics.vercel.app/en/journal/winter-skincare-london/"/>
+  </url>
+  <url>
+    <loc>https://rafa-boni-aesthetics.vercel.app/en/journal/hydrofacial-dermaplaning-or-chemical-peel/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://rafa-boni-aesthetics.vercel.app/en/journal/hydrofacial-dermaplaning-or-chemical-peel/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://rafa-boni-aesthetics.vercel.app/pt/blog/hydrofacial-dermaplaning-ou-peeling/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rafa-boni-aesthetics.vercel.app/en/journal/hydrofacial-dermaplaning-or-chemical-peel/"/>
+  </url>
+  <url>
+    <loc>https://rafa-boni-aesthetics.vercel.app/pt/blog/hydrofacial-dermaplaning-ou-peeling/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://rafa-boni-aesthetics.vercel.app/en/journal/hydrofacial-dermaplaning-or-chemical-peel/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://rafa-boni-aesthetics.vercel.app/pt/blog/hydrofacial-dermaplaning-ou-peeling/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rafa-boni-aesthetics.vercel.app/en/journal/hydrofacial-dermaplaning-or-chemical-peel/"/>
+  </url>
 </urlset>
