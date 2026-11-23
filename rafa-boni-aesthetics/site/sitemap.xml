@@ -54,4 +54,238 @@
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://rafa-boni-aesthetics.vercel.app/pt/termos-e-condicoes/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://rafa-boni-aesthetics.vercel.app/en/terms-and-conditions/"/>
   </url>
+  <url>
+    <loc>https://rafa-boni-aesthetics.vercel.app/en/treatments/hydrofacial/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/hydrofacial/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://rafa-boni-aesthetics.vercel.app/pt/tratamentos/hydrofacial/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/hydrofacial/"/>
+  </url>
+  <url>
+    <loc>https://rafa-boni-aesthetics.vercel.app/pt/tratamentos/hydrofacial/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/hydrofacial/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://rafa-boni-aesthetics.vercel.app/pt/tratamentos/hydrofacial/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/hydrofacial/"/>
+  </url>
+  <url>
+    <loc>https://rafa-boni-aesthetics.vercel.app/en/treatments/microneedling-pdrn/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/microneedling-pdrn/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://rafa-boni-aesthetics.vercel.app/pt/tratamentos/microagulhamento-pdrn/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/microneedling-pdrn/"/>
+  </url>
+  <url>
+    <loc>https://rafa-boni-aesthetics.vercel.app/pt/tratamentos/microagulhamento-pdrn/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/microneedling-pdrn/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://rafa-boni-aesthetics.vercel.app/pt/tratamentos/microagulhamento-pdrn/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/microneedling-pdrn/"/>
+  </url>
+  <url>
+    <loc>https://rafa-boni-aesthetics.vercel.app/en/treatments/dermaplaning/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/dermaplaning/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://rafa-boni-aesthetics.vercel.app/pt/tratamentos/dermaplaning/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/dermaplaning/"/>
+  </url>
+  <url>
+    <loc>https://rafa-boni-aesthetics.vercel.app/pt/tratamentos/dermaplaning/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/dermaplaning/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://rafa-boni-aesthetics.vercel.app/pt/tratamentos/dermaplaning/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/dermaplaning/"/>
+  </url>
+  <url>
+    <loc>https://rafa-boni-aesthetics.vercel.app/en/treatments/chemical-peels/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/chemical-peels/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://rafa-boni-aesthetics.vercel.app/pt/tratamentos/peelings-quimicos/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/chemical-peels/"/>
+  </url>
+  <url>
+    <loc>https://rafa-boni-aesthetics.vercel.app/pt/tratamentos/peelings-quimicos/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/chemical-peels/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://rafa-boni-aesthetics.vercel.app/pt/tratamentos/peelings-quimicos/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/chemical-peels/"/>
+  </url>
+  <url>
+    <loc>https://rafa-boni-aesthetics.vercel.app/en/treatments/carbon-peel/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/carbon-peel/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://rafa-boni-aesthetics.vercel.app/pt/tratamentos/carbon-peel/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/carbon-peel/"/>
+  </url>
+  <url>
+    <loc>https://rafa-boni-aesthetics.vercel.app/pt/tratamentos/carbon-peel/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/carbon-peel/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://rafa-boni-aesthetics.vercel.app/pt/tratamentos/carbon-peel/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/carbon-peel/"/>
+  </url>
+  <url>
+    <loc>https://rafa-boni-aesthetics.vercel.app/en/treatments/profhilo/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/profhilo/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://rafa-boni-aesthetics.vercel.app/pt/tratamentos/profhilo/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/profhilo/"/>
+  </url>
+  <url>
+    <loc>https://rafa-boni-aesthetics.vercel.app/pt/tratamentos/profhilo/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/profhilo/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://rafa-boni-aesthetics.vercel.app/pt/tratamentos/profhilo/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/profhilo/"/>
+  </url>
+  <url>
+    <loc>https://rafa-boni-aesthetics.vercel.app/en/treatments/skin-boosters/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/skin-boosters/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://rafa-boni-aesthetics.vercel.app/pt/tratamentos/skin-boosters/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/skin-boosters/"/>
+  </url>
+  <url>
+    <loc>https://rafa-boni-aesthetics.vercel.app/pt/tratamentos/skin-boosters/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/skin-boosters/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://rafa-boni-aesthetics.vercel.app/pt/tratamentos/skin-boosters/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/skin-boosters/"/>
+  </url>
+  <url>
+    <loc>https://rafa-boni-aesthetics.vercel.app/en/treatments/radiesse/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/radiesse/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://rafa-boni-aesthetics.vercel.app/pt/tratamentos/radiesse/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/radiesse/"/>
+  </url>
+  <url>
+    <loc>https://rafa-boni-aesthetics.vercel.app/pt/tratamentos/radiesse/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/radiesse/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://rafa-boni-aesthetics.vercel.app/pt/tratamentos/radiesse/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/radiesse/"/>
+  </url>
+  <url>
+    <loc>https://rafa-boni-aesthetics.vercel.app/en/treatments/hifu/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/hifu/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://rafa-boni-aesthetics.vercel.app/pt/tratamentos/hifu/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/hifu/"/>
+  </url>
+  <url>
+    <loc>https://rafa-boni-aesthetics.vercel.app/pt/tratamentos/hifu/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/hifu/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://rafa-boni-aesthetics.vercel.app/pt/tratamentos/hifu/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/hifu/"/>
+  </url>
+  <url>
+    <loc>https://rafa-boni-aesthetics.vercel.app/en/treatments/prp-facial/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/prp-facial/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://rafa-boni-aesthetics.vercel.app/pt/tratamentos/prp-facial/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/prp-facial/"/>
+  </url>
+  <url>
+    <loc>https://rafa-boni-aesthetics.vercel.app/pt/tratamentos/prp-facial/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/prp-facial/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://rafa-boni-aesthetics.vercel.app/pt/tratamentos/prp-facial/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/prp-facial/"/>
+  </url>
+  <url>
+    <loc>https://rafa-boni-aesthetics.vercel.app/en/treatments/prp-hair/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/prp-hair/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://rafa-boni-aesthetics.vercel.app/pt/tratamentos/prp-capilar/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/prp-hair/"/>
+  </url>
+  <url>
+    <loc>https://rafa-boni-aesthetics.vercel.app/pt/tratamentos/prp-capilar/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/prp-hair/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://rafa-boni-aesthetics.vercel.app/pt/tratamentos/prp-capilar/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/prp-hair/"/>
+  </url>
+  <url>
+    <loc>https://rafa-boni-aesthetics.vercel.app/en/treatments/body-microneedling/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/body-microneedling/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://rafa-boni-aesthetics.vercel.app/pt/tratamentos/microagulhamento-corporal/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/body-microneedling/"/>
+  </url>
+  <url>
+    <loc>https://rafa-boni-aesthetics.vercel.app/pt/tratamentos/microagulhamento-corporal/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/body-microneedling/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://rafa-boni-aesthetics.vercel.app/pt/tratamentos/microagulhamento-corporal/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/body-microneedling/"/>
+  </url>
+  <url>
+    <loc>https://rafa-boni-aesthetics.vercel.app/en/treatments/tattoo-pigmentation-removal/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/tattoo-pigmentation-removal/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://rafa-boni-aesthetics.vercel.app/pt/tratamentos/remocao-tatuagem-pigmentacao/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/tattoo-pigmentation-removal/"/>
+  </url>
+  <url>
+    <loc>https://rafa-boni-aesthetics.vercel.app/pt/tratamentos/remocao-tatuagem-pigmentacao/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/tattoo-pigmentation-removal/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://rafa-boni-aesthetics.vercel.app/pt/tratamentos/remocao-tatuagem-pigmentacao/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rafa-boni-aesthetics.vercel.app/en/treatments/tattoo-pigmentation-removal/"/>
+  </url>
 </urlset>

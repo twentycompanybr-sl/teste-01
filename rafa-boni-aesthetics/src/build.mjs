@@ -8,6 +8,8 @@ import { config as C, categories, treatments, results, reviews } from './data.mj
 import { t as T, routes } from './i18n.mjs';
 import { legal } from './legal.mjs';
 import { PAY } from './payment-icons.mjs';
+import { pages as TP, pageUi as TPU, slugs as TSLUG } from './treatment-pages.mjs';
+const tpUrl = (lang, id) => (TSLUG[id] ? TPU[lang].base + TSLUG[id][lang] + '/' : null);
 
 const OUT = join(dirname(fileURLToPath(import.meta.url)), '..', 'site');
 const LANGS = ['en', 'pt'];
@@ -94,7 +96,7 @@ function picture(src, alt, cls = '', { eager = false, variant = 'portrait', size
 }
 
 // ── layout ───────────────────────────────────────────────────
-function head(lang, { title, desc, path, alt, home = false, noindex = false }) {
+function head(lang, { title, desc, path, alt, home = false, noindex = false, ld = '' }) {
   const L = T[lang];
   const altLang = lang === 'en' ? 'pt' : 'en';
   const og = C.ogImage ? `<meta property="og:image" content="${abs(C.ogImage)}">\n<meta name="twitter:card" content="summary_large_image">` : '<meta name="twitter:card" content="summary">';
@@ -126,7 +128,7 @@ ${og}
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Manrope:wght@300;400;500;600&display=swap">
 <script>${JS_FLAG}</script>
 <link rel="stylesheet" href="/assets/css/main.css?v=${VERSION}">
-${home ? jsonLd(lang) + faqJsonLd(T[lang]) : ''}
+${home ? jsonLd(lang) + faqJsonLd(T[lang]) : ''}${ld}
 <script src="/assets/js/main.js?v=${VERSION}" defer></script>
 </head>`;
 }
@@ -304,9 +306,9 @@ function treatmentsSec(lang, L) {
       return `<li class="trow${x.consultationOnly ? ' trow--consult' : ''}" id="t-${x.id}" data-reveal style="--d:${i * 0.06}s">
           <span class="trow-n">${pad(i + 1)}</span>
           <div class="trow-main">
-            <h4 class="trow-title">${d.name}${x.consultationOnly ? `<span class="trow-flag">${R.consultOnly}</span>` : ''}</h4>
+            <h4 class="trow-title">${tpUrl(lang, x.id) ? `<a href="${tpUrl(lang, x.id)}">${d.name}</a>` : d.name}${x.consultationOnly ? `<span class="trow-flag">${R.consultOnly}</span>` : ''}</h4>
             <p class="trow-desc">${d.desc}</p>
-            <div class="trow-actions">${actions}</div>
+            <div class="trow-actions">${actions}${tpUrl(lang, x.id) ? `<a class="tlink tlink--more" href="${tpUrl(lang, x.id)}"><span>${TPU[lang].learn}</span>${I.arrow}</a>` : ''}</div>
           </div>
         </li>`;
     }).join('');
@@ -609,6 +611,102 @@ ${footer(lang)}
 `;
 }
 
+function treatmentPage(lang, id) {
+  const L = T[lang], U = TPU[lang], P = TP[id][lang];
+  const x = treatments.find((t) => t.id === id);
+  const d = x[lang];
+  const cat = categories.find((c) => c.id === x.cat);
+  const other = lang === 'en' ? 'pt' : 'en';
+  const h = routes[lang].home;
+  const path = tpUrl(lang, id);
+  const book = `${h}?t=${id}#consultation`;
+  const waHref = wa(fill(L.treatments.wa, { t: d.name }));
+  const media = x.img || cat.img
+    ? img(x.img || cat.img, `${d.name} — Rafa Boni Aesthetics`, 'tp-img', { eager: true, sizes: '(min-width: 900px) 44vw, 100vw' })
+    : `<div class="tcat-art tp-art" role="img" aria-label="${esc(d.name)}"><svg viewBox="0 0 232 40" aria-hidden="true"><use href="#rb-moons"/></svg></div>`;
+  const result = LIVE_RESULTS.find((r) => r.treatment === id);
+  const related = treatments.filter((t) => t.cat === x.cat && t.id !== id && TSLUG[t.id]);
+  const steps = U.steps.map(([t, p], i) => `<li data-reveal><span>${pad(i + 1)}</span><div><h3>${t}</h3><p>${i === 2 ? P.after : p}</p></div></li>`).join('');
+  const title = `${d.name} ${U.titleSuffix}`;
+  const desc = P.lead.length > 158 ? P.lead.slice(0, P.lead.lastIndexOf(' ', 155)) + '…' : P.lead;
+  const ld = `<script type="application/ld+json">${JSON.stringify([
+    { '@context': 'https://schema.org', '@type': 'Service', name: d.name, serviceType: d.name, description: P.lead, url: abs(path),
+      areaServed: C.locations.map((l) => ({ '@type': 'Place', name: `${l}, London` })),
+      provider: { '@type': 'HealthAndBeautyBusiness', name: C.brand, url: abs(h), telephone: '+' + C.whatsapp } },
+    { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+      { '@type': 'ListItem', position: 1, name: U.crumbHome, item: abs(h) },
+      { '@type': 'ListItem', position: 2, name: U.crumbTreatments, item: abs(h) + '#treatments' },
+      { '@type': 'ListItem', position: 3, name: d.name, item: abs(path) }] },
+  ])}</script>`;
+  return `${head(lang, { title, desc, path, alt: tpUrl(other, id), ld })}
+<body data-lang="${lang}" class="page-treatment">
+${header(lang, tpUrl(other, id))}
+<main id="main" class="tp">
+  <section class="tp-hero" data-hero>
+    <div class="hero-bg" aria-hidden="true"><span class="aurora a1"></span><span class="aurora a2"></span><span class="hero-glow"></span><span class="grain"></span></div>
+    <div class="container tp-hero-grid">
+      <div class="tp-hero-copy">
+        <nav class="crumbs hero-in" style="--d:.05s" aria-label="Breadcrumb"><a href="${h}">${U.crumbHome}</a><span aria-hidden="true">/</span><a href="${h}#treatments">${U.crumbTreatments}</a><span aria-hidden="true">/</span><span aria-current="page">${d.name}</span></nav>
+        <p class="eyebrow hero-in" style="--d:.1s">${cat[lang]}</p>
+        <h1 class="h1 tp-title hero-in" style="--d:.2s">${d.name}</h1>
+        <p class="lead tp-lead hero-in" style="--d:.32s">${P.lead}</p>
+        <div class="btn-row hero-in" style="--d:.44s">
+          <a class="btn btn--dark" href="${book}"><span>${U.book}</span>${I.arrow}</a>
+          <a class="btn btn--line" href="${waHref}" target="_blank" rel="noopener">${I.wa}<span>${U.wa}</span></a>
+        </div>
+      </div>
+      <div class="tp-media hero-in" style="--d:.3s">${media}</div>
+    </div>
+  </section>
+
+  <section class="sec tp-body">
+    <div class="container tp-grid">
+      <div class="tp-main">
+        <h2 class="tp-h" data-reveal>${U.concerns}</h2>
+        <ul class="tp-concerns">${P.concerns.map((c, i) => `<li data-reveal style="--d:${i * 0.06}s">${I.check}<span>${c}</span></li>`).join('')}</ul>
+        <h2 class="tp-h" data-reveal>${U.how}</h2>
+        <ol class="steps tp-steps">${steps}</ol>
+        ${result ? `<h2 class="tp-h" data-reveal>${U.results}</h2>
+        <figure class="tp-result" data-reveal><img src="${result.image}" alt="${esc(result[lang].alt)}" loading="lazy" decoding="async"><figcaption>${result[lang].caption}</figcaption></figure>` : ''}
+        <p class="fineprint" data-reveal>${U.note}</p>
+      </div>
+      <aside class="tp-aside">
+        <div class="tp-card" data-reveal>
+          <h2 class="tp-h tp-h--sm">${U.facts}</h2>
+          <dl class="tp-facts">
+            <div><dt>${U.downtime}</dt><dd>${P.downtime}</dd></div>
+            <div><dt>${U.sessions}</dt><dd>${U.sessionsText}</dd></div>
+            <div><dt>${U.suitable}</dt><dd>${U.suitableText}</dd></div>
+            <div><dt>${U.locations}</dt><dd>${U.locationsText}</dd></div>
+          </dl>
+          <a class="btn btn--dark btn--block" href="${book}"><span>${U.book}</span>${I.arrow}</a>
+          <a class="tp-wa" href="${waHref}" target="_blank" rel="noopener">${I.wa}<span>${U.wa}</span></a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  ${related.length ? `<section class="sec tp-related" aria-labelledby="rel-title">
+    <div class="container">
+      <div class="tp-related-head"><h2 class="h2" id="rel-title" data-reveal>${U.related}</h2><a class="tlink" href="${h}#treatments" data-reveal><span>${U.viewAll}</span>${I.arrow}</a></div>
+      <ul class="tp-rel-grid">${related.map((t, i) => `<li data-reveal style="--d:${i * 0.06}s"><a href="${tpUrl(lang, t.id)}"><span class="tp-rel-n">${pad(i + 1)}</span><strong>${t[lang].name}</strong><span class="tp-rel-desc">${t[lang].desc}</span><span class="tp-rel-go">${U.learn} ${I.arrow}</span></a></li>`).join('')}</ul>
+    </div>
+  </section>` : ''}
+
+  <section class="band tp-cta">
+    <div class="container" data-reveal>
+      <h2 class="h2">${fill(U.ctaTitle, { t: `<em>${d.name}</em>` })}</h2>
+      <p>${U.ctaText}</p>
+      <div class="btn-row tp-cta-btns"><a class="btn btn--fill-light" href="${book}"><span>${U.book}</span>${I.arrow}</a><a class="btn btn--ghost-l" href="${waHref}" target="_blank" rel="noopener">${I.wa}<span>${U.wa}</span></a></div>
+    </div>
+  </section>
+</main>
+${footer(lang)}
+</body>
+</html>
+`;
+}
+
 function legalPage(lang, kind) {
   const other = lang === 'en' ? 'pt' : 'en';
   const D = legal[lang][kind];
@@ -687,9 +785,19 @@ function sitemap() {
     <xhtml:link rel="alternate" hreflang="pt-BR" href="${abs(routes.pt[k])}"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="${abs(routes.en[k])}"/>
   </url>`)).join('\n');
+  const tUrls = Object.keys(TSLUG).flatMap((id) => LANGS.map((l) => `  <url>
+    <loc>${abs(tpUrl(l, id))}</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en-GB" href="${abs(tpUrl('en', id))}"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="${abs(tpUrl('pt', id))}"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="${abs(tpUrl('en', id))}"/>
+  </url>`)).join('\n');
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 ${urls}
+${tUrls}
 </urlset>
 `;
 }
@@ -699,6 +807,7 @@ for (const l of LANGS) {
   write(routes[l].home + 'index.html', homePage(l));
   write(routes[l].privacy + 'index.html', legalPage(l, 'privacy'));
   write(routes[l].terms + 'index.html', legalPage(l, 'terms'));
+  for (const id of Object.keys(TSLUG)) write(tpUrl(l, id) + 'index.html', treatmentPage(l, id));
 }
 write('index.html', rootPage());
 write('404.html', notFoundPage());
@@ -751,4 +860,4 @@ const vercel = {
   ],
 };
 writeFileSync(join(OUT, '..', 'vercel.json'), JSON.stringify(vercel, null, 2) + '\n');
-console.log(`Built ${LANGS.length * 3 + 2} pages for ${C.siteUrl}`);
+console.log(`Built ${LANGS.length * (3 + Object.keys(TSLUG).length) + 2} pages for ${C.siteUrl}`);
