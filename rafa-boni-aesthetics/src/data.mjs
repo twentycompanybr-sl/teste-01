@@ -16,13 +16,14 @@ export const config = {
   instagram: 'rafaboni_aesthetics',
   email: 'rafaboni_aesthetics@outlook.com',
   locations: ['Canada Water', 'Mayfair'],
+  payments: ['Card', 'Apple Pay', 'PayPal', 'Revolut Pay', 'Klarna', 'Clearpay'],
   year: 2026,
 
   // Images — drop files into /site/assets/... and set them here. Leave null for a placeholder.
   // Format: { src: base path (files are <src>-<width>.webp), widths: [...], w, h (largest size), pos: CSS object-position }
-  // logo: null → uses the built-in moon-phase mark + wordmark (recreated from the clinic wall logo).
-  // To use the original artwork instead: '/assets/logo/rafa-boni-logo.svg'
-  logo: null,
+  // Original logo (transparent background, generated from the client's artwork).
+  // null → falls back to the SVG moon-phase mark + wordmark (still used on dark backgrounds).
+  logo: { src: '/assets/logo/rafa-boni-logo', widths: [360, 720], w: 794, h: 384 },
   ogImage: '/assets/branding/og-image.jpg',
   portraits: {
     hero: { src: '/assets/portraits/rafaela-treatment-hero', widths: [640, 1035], w: 1035, h: 1520, pos: '50% 22%' },
@@ -36,11 +37,24 @@ export const config = {
   resultsGalleryEnabled: false,
 };
 
+// One photo per category (null → elegant moon-phase placeholder).
 export const categories = [
-  { id: 'facial', en: 'Facial Skincare', pt: 'Cuidados Faciais' },
-  { id: 'rejuvenation', en: 'Skin Rejuvenation & Injectables', pt: 'Rejuvenescimento & Injetáveis' },
-  { id: 'prp', en: 'PRP — Platelet-Rich Plasma', pt: 'PRP — Plasma Rico em Plaquetas' },
-  { id: 'body', en: 'Body & Specialised Treatments', pt: 'Corporal & Tratamentos Especializados' },
+  { id: 'facial', en: 'Facial Skincare', pt: 'Cuidados Faciais',
+    enIntro: 'Treatments to cleanse, renew and restore radiance — the foundation of healthy-looking skin.',
+    ptIntro: 'Tratamentos para limpar, renovar e devolver o viço — a base de uma pele com aparência saudável.',
+    img: { src: '/assets/treatments/microneedling-logo-wall', widths: [560, 825], w: 825, h: 1600, pos: '50% 60%' } },
+  { id: 'rejuvenation', en: 'Skin Rejuvenation & Injectables', pt: 'Rejuvenescimento & Injetáveis',
+    enIntro: 'Injectable and collagen-supporting treatments, planned for subtle and natural-looking refinement.',
+    ptIntro: 'Tratamentos injetáveis e bioestimuladores, planejados para um refinamento sutil e natural.',
+    img: null },
+  { id: 'prp', en: 'PRP — Platelet-Rich Plasma', pt: 'PRP — Plasma Rico em Plaquetas',
+    enIntro: 'Treatments using your own platelet-rich plasma to support skin and hair quality.',
+    ptIntro: 'Tratamentos com o seu próprio plasma rico em plaquetas para favorecer a qualidade da pele e dos fios.',
+    img: { src: '/assets/treatments/prp-hair', widths: [640, 1000], w: 1000, h: 1573, pos: '50% 45%' } },
+  { id: 'body', en: 'Body & Specialised Treatments', pt: 'Corporal & Tratamentos Especializados',
+    enIntro: 'Targeted treatments for texture, scars, pigmentation and wellbeing.',
+    ptIntro: 'Tratamentos direcionados para textura, cicatrizes, pigmentação e bem-estar.',
+    img: null },
 ];
 
 // consultationOnly: true → prescription-only medicines (POMs) must not be
@@ -111,4 +125,15 @@ export const results = [];
 // CLIENT REVIEWS — copy text exactly as written by the client; never edit meaning.
 // Either `text` (with optional `name`, only if authorised) or `image` (screenshot).
 // { lang: 'en', text: '…', name: 'S.', source: 'Google', image: null, rating: 5 }
-export const reviews = [];
+export const reviews = [
+  // Transcribed exactly from client WhatsApp messages supplied by the business (names not shown).
+  { lang: 'pt', source: 'WhatsApp',
+    text: 'Boa tarde, Rafa!\n\nComo você comentou, meu nariz tinha muitos cravos e a pele dessa região é bem fininha, então poderia até descamar — mas não descamou! Minha pele ficou perfeita, macia e com um brilho lindo. Estou usando o filtro solar direitinho, como você me orientou.\n\nAmei o resultado — suas mãos são abençoadas! ❤️❤️❤️❤️🙏🙏🙏',
+    en: 'Good afternoon, Rafa! As you mentioned, my nose had a lot of blackheads and the skin there is very thin, so it could even have peeled — but it didn’t! My skin looked perfect, soft and with a beautiful glow. I’m using my sunscreen properly, just as you advised. I loved the result — you have blessed hands!' },
+  { lang: 'pt', source: 'WhatsApp',
+    text: 'Não tenho palavras para agradecer o resultado incrível que você vem me proporcionando com seu atendimento personalizado Rafa, eu estou tão feliz 🤩🥰, obrigada por cuidar da minha pele com tanto carinho, por me ajudar com dicas de como usar cada produto, proporcionando assim um resultado ainda melhor 😍🤍 Muuuito obrigadaaaa ❤️',
+    en: 'I have no words to thank you for the amazing results you’ve been giving me with your personalised care, Rafa. I’m so happy! Thank you for looking after my skin with so much care and for helping me with tips on how to use each product, making the results even better. Thank you sooo much!' },
+  { lang: 'pt', source: 'WhatsApp',
+    text: 'Ficou ótimo\nE fora todo o cuidado q vc teve c a gente\n\nVc está de parabéns\nQ todas profissionais fossem assim como vc\n\nDa até gosto de pagar\n\nEu fico imaginando o seu cuidado c a cliente no seu estúdio\n\n🥰',
+    en: 'It turned out great. And on top of that, all the care you took with us. Well done — I wish every professional were like you. It actually feels good to pay. I can only imagine the care you give your clients in your studio.' },
+];

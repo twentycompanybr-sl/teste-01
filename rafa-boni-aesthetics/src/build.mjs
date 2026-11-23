@@ -11,7 +11,7 @@ import { legal } from './legal.mjs';
 const OUT = join(dirname(fileURLToPath(import.meta.url)), '..', 'site');
 const LANGS = ['en', 'pt'];
 const VERSION = Date.now().toString(36);
-const JS_FLAG = "document.documentElement.classList.add('js')";
+const JS_FLAG = "var d=document.documentElement;d.classList.add('js');try{if(sessionStorage.getItem('rb-seen'))d.classList.add('seen');else sessionStorage.setItem('rb-seen','1')}catch(e){d.classList.add('seen')}";
 const sha = (s) => `'sha256-${createHash('sha256').update(s).digest('base64')}'`;
 
 // ── helpers ──────────────────────────────────────────────────
@@ -60,15 +60,21 @@ const MOONS_SPRITE = (() => {
   const shapes = xs.map((x, i) => `<circle cx="${x}" cy="20" r="${r[i]}" fill="${fill[i]}"${off[i] === null ? '' : ` mask="url(#rbm${i})"`}/>`).join('');
   const star = (x, y, s) => `<path d="M${x} ${y - s}L${x + s * .22} ${y - s * .22}L${x + s} ${y}L${x + s * .22} ${y + s * .22}L${x} ${y + s}L${x - s * .22} ${y + s * .22}L${x - s} ${y}L${x - s * .22} ${y - s * .22}Z" fill="url(#rbG)"/>`;
   return `<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
-<linearGradient id="rbG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C9A56E"/><stop offset="1" stop-color="#9A7444"/></linearGradient>
-<linearGradient id="rbL" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EBDDCB"/><stop offset="1" stop-color="#D8C3A8"/></linearGradient>
+<linearGradient id="rbG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C2A089"/><stop offset="1" stop-color="#A07E66"/></linearGradient>
+<linearGradient id="rbL" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FBEADB"/><stop offset="1" stop-color="#EED6C0"/></linearGradient>
 ${masks}
 <symbol id="rb-moons" viewBox="0 0 232 40">${shapes}${star(134, 4, 4)}${star(98, 37, 2.6)}${star(229, 8, 2.6)}${star(3, 30, 2.2)}</symbol>
 </defs></svg>`;
 })();
 
+function logoImg(cls = '', sizes = '130px', eager = true) {
+  const L = C.logo;
+  return `<img class="logo-img ${cls}" src="${L.src}-${L.widths[0]}.png" srcset="${L.widths.map((w) => `${L.src}-${w}.webp ${w}w`).join(', ')}" sizes="${sizes}" width="${L.w}" height="${L.h}" alt="${C.brand}"${eager ? '' : ' loading="lazy"'} decoding="async">`;
+}
+
 function wordmark(cls = '') {
-  if (C.logo) return `<img class="logo-img ${cls}" src="${C.logo}" alt="${C.brand}" width="160" height="48">`;
+  // the original artwork is dark-on-light; on dark backgrounds use the light SVG version
+  if (C.logo && !cls.includes('light')) return logoImg(cls);
   return `<span class="wordmark ${cls}"><svg class="wm-moons" viewBox="0 0 232 40" aria-hidden="true"><use href="#rb-moons"/></svg><span class="wm-main">Rafa Boni</span><span class="wm-sub">Aesthetics</span></span>`;
 }
 
@@ -112,7 +118,8 @@ ${alt ? `<link rel="alternate" hreflang="${T.en.htmlLang}" href="${abs(lang === 
 <meta property="og:locale:alternate" content="${T[altLang].ogLocale}">
 ${og}
 <meta name="theme-color" content="#F8F5F0">
-<link rel="icon" href="/assets/branding/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/branding/favicon-64.png" type="image/png" sizes="64x64">
+<link rel="apple-touch-icon" href="/assets/branding/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Manrope:wght@300;400;500;600&display=swap">
@@ -137,7 +144,7 @@ function jsonLd(lang) {
     founder: { '@type': 'Person', name: C.founder },
     areaServed: C.locations.map((l) => ({ '@type': 'Place', name: `${l}, London` })),
     openingHoursSpecification: [{ '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'], opens: '09:30', closes: '18:00' }],
-    ...(C.logo ? { logo: abs(C.logo) } : {}),
+    ...(C.logo ? { logo: abs(`${C.logo.src}-${C.logo.widths[1]}.png`) } : {}),
     ...(C.ogImage ? { image: abs(C.ogImage) } : {}),
   };
   return `<script type="application/ld+json">${JSON.stringify(data)}</script>`;
@@ -155,6 +162,7 @@ function header(lang, altPath) {
   return `${MOONS_SPRITE}
 <a class="skip" href="#main">${L.skip}</a>
 <header class="hdr" data-hdr>
+  <span class="progress" data-progress aria-hidden="true"></span>
   <div class="container hdr-in">
     <a class="brand" href="${h}#home" aria-label="${C.brand} — ${N.home}">${wordmark()}</a>
     <nav class="nav" aria-label="Main"><ul>${items}</ul></nav>
@@ -220,6 +228,10 @@ const sectionHead = (eyebrow, title, intro = '', cls = '') => `<div class="sec-h
 </div>`;
 
 // ── home sections ────────────────────────────────────────────
+function badge(text) {
+  return `<div class="spin-badge" aria-hidden="true"><svg viewBox="0 0 120 120"><defs><path id="spinPath" d="M60 60m-46 0a46 46 0 1 1 92 0a46 46 0 1 1-92 0"/></defs><text><textPath href="#spinPath" textLength="285">${text}</textPath></text></svg><span class="spin-moon"></span></div>`;
+}
+
 function hero(L) {
   const H = L.hero;
   return `<section class="hero" id="home" aria-labelledby="hero-title">
@@ -234,23 +246,24 @@ function hero(L) {
         <a class="btn btn--line" href="#consultation"><span>${H.cta2}</span>${I.arrow}</a>
       </div>
     </div>
-    <div class="hero-media">
+    <div class="hero-media" data-parallax="0.06">
       <div class="hero-frame">${picture(C.portraits.hero, H.photo, 'hero-img', { eager: true, sizes: '(min-width: 900px) 520px, 100vw' })}</div>
+      ${badge(H.badge)}
       <p class="hero-loc"><span>${H.locations}</span><span>${H.city}</span></p>
     </div>
   </div>
   <a class="scroll-cue" href="#about" aria-label="${H.scroll}"><span>${H.scroll}</span><i></i></a>
 </section>
-<div class="marquee" aria-hidden="true"><div class="marquee-track">${[0, 1].map(() => `<span>${treatments.map((x) => `<em>${x.en.name.replace(' Consultation', '')}</em><b>✦</b>`).join('')}</span>`).join('')}</div></div>`;
+<div class="marquee" aria-hidden="true"><div class="marquee-track">${[0, 1].map(() => `<span>${treatments.filter((x) => !x.consultationOnly).map((x) => `<em>${x.en.name}</em><b>✦</b>`).join('')}</span>`).join('')}</div></div>`;
 }
 
 function about(L) {
   const A = L.about;
   return `<section class="sec about" id="about" aria-labelledby="about-title">
   <div class="container about-grid">
-    <div class="about-media" data-reveal>
-      <div class="about-main">${picture(C.portraits.about, A.photo, 'about-img', { sizes: '(min-width: 900px) 40vw, 90vw' })}</div>
-      <div class="about-detail">${picture(C.portraits.aboutDetail, A.photo2, 'about-img', { variant: 'detail', sizes: '(min-width: 900px) 18vw, 40vw' })}</div>
+    <div class="about-media">
+      <div class="about-main" data-clip>${picture(C.portraits.about, A.photo, 'about-img', { sizes: '(min-width: 900px) 40vw, 90vw' })}</div>
+      <div class="about-detail" data-clip data-parallax="-0.07">${picture(C.portraits.aboutDetail, A.photo2, 'about-img', { variant: 'detail', sizes: '(min-width: 900px) 18vw, 40vw' })}</div>
       <span class="about-badge" aria-hidden="true">Est.<br>London</span>
     </div>
     <div class="about-copy">
@@ -268,31 +281,35 @@ function treatmentsSec(lang, L) {
   const R = L.treatments;
   const chips = [`<button type="button" class="chip is-active" data-filter="all" aria-pressed="true">${R.all}</button>`]
     .concat(categories.map((c) => `<button type="button" class="chip" data-filter="${c.id}" aria-pressed="false">${c[lang]}</button>`)).join('');
-  let n = 0;
-  const groups = categories.map((c) => {
-    const items = treatments.filter((x) => x.cat === c.id).map((x) => {
-      n++;
+  const groups = categories.map((c, ci) => {
+    const list = treatments.filter((x) => x.cat === c.id);
+    const rows = list.map((x, i) => {
       const d = x[lang];
       const actions = x.consultationOnly
         ? `<a class="tlink" href="#consultation" data-treatment="${x.id}"><span>${R.book}</span>${I.arrow}</a>`
         : `<a class="tlink tlink--wa" href="${wa(fill(R.wa, { t: d.name }))}" target="_blank" rel="noopener">${I.wa}<span>${R.enquire}</span></a>
            <a class="tlink" href="#consultation" data-treatment="${x.id}"><span>${R.book}</span>${I.arrow}</a>`;
-      const media = x.img
-        ? img(x.img, `${d.name} — Rafa Boni Aesthetics`, '', { sizes: '(min-width: 900px) 400px, (min-width: 560px) 50vw, 100vw' })
-        : `<div class="tcard-art tcard-art--${c.id}" role="img" aria-label="${esc(d.name)} — ${esc(R.photo)}" data-placeholder>${CAT_ICON[c.id]}</div>`;
-      return `<article class="tcard${x.consultationOnly ? ' tcard--consult' : ''}" data-cat="${c.id}" id="t-${x.id}" data-reveal>
-        <div class="tcard-media">${media}<span class="tcard-n">${pad(n)}</span>${x.consultationOnly ? `<span class="tcard-flag">${R.consultOnly}</span>` : ''}</div>
-        <div class="tcard-body">
-          <p class="tcard-cat">${c[lang]}</p>
-          <h4 class="tcard-title">${d.name}</h4>
-          <p class="tcard-desc">${d.desc}</p>
-          <div class="tcard-actions">${actions}</div>
-        </div>
-      </article>`;
+      return `<li class="trow${x.consultationOnly ? ' trow--consult' : ''}" id="t-${x.id}" data-reveal style="--d:${i * 0.06}s">
+          <span class="trow-n">${pad(i + 1)}</span>
+          <div class="trow-main">
+            <h4 class="trow-title">${d.name}${x.consultationOnly ? `<span class="trow-flag">${R.consultOnly}</span>` : ''}</h4>
+            <p class="trow-desc">${d.desc}</p>
+            <div class="trow-actions">${actions}</div>
+          </div>
+        </li>`;
     }).join('');
-    return `<div class="tgroup" data-group="${c.id}">
-      <h3 class="tgroup-title" data-reveal><span>${String.fromCharCode(65 + categories.indexOf(c))}</span>${c[lang]}</h3>
-      <div class="tgrid">${items}</div>
+    const letter = String.fromCharCode(65 + ci);
+    const media = c.img
+      ? img(c.img, `${c[lang]} — Rafa Boni Aesthetics`, 'tcat-img', { sizes: '(min-width: 900px) 42vw, 100vw' })
+      : `<div class="tcat-art" role="img" aria-label="${esc(c[lang])}" data-placeholder><svg viewBox="0 0 232 40" aria-hidden="true"><use href="#rb-moons"/></svg></div>`;
+    return `<div class="tcat${ci % 2 ? ' tcat--flip' : ''}" data-group="${c.id}" id="cat-${c.id}">
+      <div class="tcat-media" data-clip><div class="tcat-par" data-parallax="-0.05">${media}</div><span class="tcat-letter" aria-hidden="true">${letter}</span></div>
+      <div class="tcat-body">
+        <p class="tcat-meta" data-reveal><span>${letter}</span>${pad(list.length)} ${R.count}</p>
+        <h3 class="tcat-title" data-reveal data-split>${c[lang]}</h3>
+        <p class="tcat-intro" data-reveal>${c[lang + 'Intro']}</p>
+        <ol class="trows">${rows}</ol>
+      </div>
     </div>`;
   }).join('');
   return `<section class="sec treatments" id="treatments" aria-labelledby="treatments-title">
@@ -361,14 +378,16 @@ function reviewsSec(lang, L) {
   if (reviews.length) {
     body = `<div class="rv-wrap" data-reveal>
       <div class="rv-track" data-rv-track tabindex="0" aria-label="${R.eyebrow}">
-        ${reviews.map((r) => `<figure class="rv-card">
+        ${reviews.map((r, i) => `<figure class="rv-card" data-reveal style="--d:${i * 0.08}s">
+          <span class="rv-mark" aria-hidden="true">“</span>
           ${r.rating ? `<p class="rv-stars" aria-label="${r.rating}/5">${'★'.repeat(r.rating)}</p>` : ''}
           ${r.image ? `<img src="${r.image}" alt="${esc(R.original)}${r.name ? ' — ' + esc(r.name) : ''}" loading="lazy" decoding="async">` : ''}
-          ${r.text ? `<blockquote lang="${T[r.lang || 'en'].htmlLang}"><p>“${esc(r.text)}”</p></blockquote>` : ''}
-          <figcaption>${r.name ? esc(r.name) : ''}${r.source ? `<span>${esc(r.source)}</span>` : ''}</figcaption>
+          ${r.text ? `<blockquote lang="${T[r.lang || 'en'].htmlLang}"><p>${esc(r.text)}</p></blockquote>` : ''}
+          ${r.en && lang !== r.lang ? `<p class="rv-tr"><small>${R.translated}</small>${esc(r.en)}</p>` : ''}
+          <figcaption>${r.name ? esc(r.name) : R.client}${r.source ? `<span>${esc(r.source)}</span>` : ''}</figcaption>
         </figure>`).join('')}
       </div>
-      <div class="rv-nav"><button type="button" class="round" data-rv-prev aria-label="${R.prev}">${I.chevL}</button><button type="button" class="round" data-rv-next aria-label="${R.next}">${I.chevR}</button></div>
+      <div class="rv-nav${reviews.length <= 3 ? ' rv-nav--few' : ''}"><button type="button" class="round" data-rv-prev aria-label="${R.prev}">${I.chevL}</button><button type="button" class="round" data-rv-next aria-label="${R.next}">${I.chevR}</button></div>
     </div>`;
   } else {
     body = `<div class="pending pending--quote" data-reveal>
@@ -401,15 +420,27 @@ function whySec(L) {
 
 function philosophySec(L) {
   const P = L.philosophy;
-  const bg = C.portraits.philosophy ? img(C.portraits.philosophy, '', 'philo-bg') : '<div class="philo-bg philo-bg--ph" aria-hidden="true"></div>';
   return `<section class="philo" aria-labelledby="philo-title">
-  ${bg}
+  <div class="philo-moons" data-moons aria-hidden="true"><svg viewBox="0 0 232 40"><use href="#rb-moons"/></svg></div>
   <div class="container philo-in">
     <p class="eyebrow eyebrow--light" data-reveal>${P.eyebrow}</p>
     <h2 class="display" id="philo-title" data-reveal data-split>${P.title}</h2>
     <div class="philo-copy">${P.p.map((p) => `<p data-reveal>${p}</p>`).join('')}</div>
   </div>
 </section>`;
+}
+
+function statsSec(L) {
+  return `<section class="stats" aria-label="${esc(L.stats.label)}">
+  <div class="container"><ul class="stats-grid">${L.stats.items.map(([n, t], i) => {
+    const num = /^\d+$/.test(n) ? `<strong data-count="${n}">${n}</strong>` : `<strong>${n}</strong>`;
+    return `<li data-reveal style="--d:${i * 0.08}s">${num}<span>${t}</span></li>`;
+  }).join('')}</ul></div>
+</section>`;
+}
+
+function preloader() {
+  return `<div class="preload" aria-hidden="true"><div class="preload-in">${C.logo ? logoImg('preload-logo', '280px') : '<svg class="preload-moons" viewBox="0 0 232 40"><use href="#rb-moons"/></svg><span class="preload-word">Rafa Boni</span><span class="preload-sub">Aesthetics</span>'}</div></div>`;
 }
 
 function formSec(lang, L) {
@@ -484,6 +515,7 @@ function contactSec(lang, L) {
       <div class="loc loc--info" data-reveal style="--d:.2s">
         <p class="loc-row">${I.clock}<span><strong>${Ct.hours}</strong>${Ct.weekdays}: 09:30 – 18:00<br>${Ct.sunday}: ${Ct.closed}</span></p>
         <p class="loc-row">${I.pin}<span><strong>${Ct.locations}</strong>${Ct.locNote}</span></p>
+        <div class="loc-row loc-pay"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="1.5"/><path d="M3 10h18"/></svg><span><strong>${Ct.payment}</strong><ul class="pay">${C.payments.map((x) => `<li>${x}</li>`).join('')}</ul></span></div>
       </div>
     </div>
   </div>
@@ -495,11 +527,13 @@ function homePage(lang) {
   const L = T[lang];
   const other = lang === 'en' ? 'pt' : 'en';
   return `${head(lang, { title: L.meta.title, desc: L.meta.desc, path: routes[lang].home, alt: routes[other].home, home: true })}
-<body data-lang="${lang}">
+<body data-lang="${lang}" class="page-home">
 ${header(lang, routes[other].home)}
+${preloader()}
 <main id="main">
 ${hero(L)}
 ${about(L)}
+${statsSec(L)}
 ${treatmentsSec(lang, L)}
 ${resultsSec(lang, L)}
 ${whySec(L)}
@@ -567,7 +601,8 @@ function rootPage() {
 <link rel="alternate" hreflang="pt-BR" href="${abs('/pt/')}">
 <link rel="alternate" hreflang="x-default" href="${abs('/en/')}">
 <meta name="robots" content="noindex, follow">
-<link rel="icon" href="/assets/branding/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/branding/favicon-64.png" type="image/png" sizes="64x64">
+<link rel="apple-touch-icon" href="/assets/branding/apple-touch-icon.png">
 <script src="/assets/js/lang-redirect.js"></script>
 <noscript><meta http-equiv="refresh" content="0; url=/en/"></noscript>
 <style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#F8F5F0;color:#292522;font:15px/1.6 system-ui,sans-serif;text-align:center}a{color:inherit;margin:0 .6rem}</style>
