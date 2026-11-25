@@ -28,7 +28,7 @@ export const config = {
   portraits: {
     hero: { src: '/assets/portraits/rafaela-treatment-hero', widths: [640, 800, 1035], w: 1035, h: 1520, pos: '50% 22%' },
     about: { src: '/assets/portraits/rafaela-portrait', widths: [700, 1200], w: 1200, h: 1162, pos: '64% 50%' },
-    aboutDetail: { src: '/assets/treatments/microneedling-logo-wall', widths: [560, 825], w: 825, h: 1600, pos: '50% 10%' },
+    aboutDetail: { src: '/assets/gallery/clinic-room', widths: [640, 1000], w: 1086, h: 1448, pos: '30% 30%' },
     philosophy: { src: '/assets/treatments/prp-hair', widths: [640, 1000], w: 1000, h: 1573, pos: '50% 40%' },
   },
 
@@ -44,7 +44,7 @@ export const categories = [
   { id: 'facial', en: 'Facial Skincare', pt: 'Cuidados Faciais',
     enIntro: 'Treatments to cleanse, renew and restore radiance — the foundation of healthy-looking skin.',
     ptIntro: 'Tratamentos para limpar, renovar e devolver o viço — a base de uma pele com aparência saudável.',
-    img: { src: '/assets/treatments/microneedling-logo-wall', widths: [560, 825], w: 825, h: 1600, pos: '50% 60%' } },
+    img: { src: '/assets/treatments/microneedling-studio', widths: [640, 1000], w: 1024, h: 1280, pos: '50% 40%' } },
   { id: 'rejuvenation', en: 'Skin Rejuvenation & Injectables', pt: 'Rejuvenescimento & Injetáveis',
     enIntro: 'Injectable, collagen-supporting and non-invasive treatments, planned for subtle and natural-looking refinement.',
     ptIntro: 'Tratamentos injetáveis, bioestimuladores e não invasivos, planejados para um refinamento sutil e natural.',
@@ -64,11 +64,12 @@ export const categories = [
 // wording, never name the product and have no direct booking/promo button.
 export const treatments = [
   // A. FACIAL SKINCARE
-  { id: 'hydrofacial', cat: 'facial', img: null,
+  { id: 'hydrofacial', cat: 'facial',
+    img: { src: '/assets/treatments/hydrofacial-device', widths: [640, 1000], w: 1170, h: 1555, pos: '50% 45%' },
     en: { name: 'Hydrofacial', desc: 'Deep skin cleansing, hydration and revitalisation to help improve the overall appearance of the skin.' },
     pt: { name: 'Hydrofacial', desc: 'Limpeza profunda, hidratação e revitalização para ajudar a melhorar a aparência geral da pele.' } },
   { id: 'microneedling-pdrn', cat: 'facial',
-    img: { src: '/assets/treatments/microneedling-logo-wall', widths: [560, 825], w: 825, h: 1600, pos: '50% 63%' },
+    img: { src: '/assets/treatments/microneedling-studio', widths: [640, 1000], w: 1024, h: 1280, pos: '50% 40%' },
     en: { name: 'Microneedling with PDRN', desc: 'A skin treatment designed to support skin renewal and improve the appearance of skin texture.' },
     pt: { name: 'Microagulhamento com PDRN', desc: 'Tratamento pensado para estimular a renovação da pele e melhorar a aparência da sua textura.' } },
   { id: 'dermaplaning', cat: 'facial', img: null,
@@ -80,6 +81,11 @@ export const treatments = [
   { id: 'carbon-peel', cat: 'facial', img: null,
     en: { name: 'Carbon Peel', desc: 'A laser-based skin treatment designed to improve the appearance and texture of the skin.' },
     pt: { name: 'Carbon Peel', desc: 'Tratamento com laser pensado para melhorar a aparência e a textura da pele.' } },
+
+  { id: 'lash-lift', cat: 'facial',
+    img: { src: '/assets/before-after/lash-lift-1', widths: [640, 1000], w: 1184, h: 1190, pos: '50% 50%' },
+    en: { name: 'Lash Lift', desc: 'A semi-permanent treatment that lifts and curls your natural lashes from the root, for a wide-awake, defined look without extensions.' },
+    pt: { name: 'Lash Lift', desc: 'Tratamento semipermanente que levanta e curva os cílios naturais desde a raiz, para um olhar mais aberto e definido, sem extensões.' } },
 
   // B. SKIN REJUVENATION & INJECTABLES
   { id: 'lines-consultation', cat: 'rejuvenation', img: null, consultationOnly: true,
@@ -138,6 +144,12 @@ export const results = [
   { treatment: 'hifu', file: 'hifu-neck',
     en: { caption: 'HIFU — face and neck, before and after treatment', alt: 'Client’s jawline and neck before and after HIFU treatment' },
     pt: { caption: 'HIFU — rosto e pescoço, antes e depois do tratamento', alt: 'Mandíbula e pescoço da cliente antes e depois do HIFU' } },
+  { treatment: 'lash-lift', file: 'lash-lift-2',
+    en: { caption: 'Lash Lift — before and after', alt: 'Client’s eye before and after a lash lift, with lashes lifted and more defined afterwards' },
+    pt: { caption: 'Lash Lift — antes e depois', alt: 'Olho da cliente antes e depois do lash lift, com os cílios mais curvados e definidos' } },
+  { treatment: 'lash-lift', file: 'lash-lift-1',
+    en: { caption: 'Lash Lift — before (top) and after (bottom)', alt: 'Client’s eye area before and after a lash lift' },
+    pt: { caption: 'Lash Lift — antes (em cima) e depois (embaixo)', alt: 'Região dos olhos da cliente antes e depois do lash lift' } },
   { treatment: 'prp-hair', file: 'prp-hair',
     en: { caption: 'PRP for hair — before and after treatment', alt: 'Client’s hairline before and after PRP hair treatment' },
     pt: { caption: 'PRP capilar — antes e depois do tratamento', alt: 'Linha do cabelo da cliente antes e depois do PRP capilar' } },

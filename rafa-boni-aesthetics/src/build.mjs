@@ -286,6 +286,31 @@ function hero(L) {
 <div class="marquee" aria-hidden="true"><div class="marquee-track">${[0, 1].map(() => `<span>${treatments.filter((x) => !x.consultationOnly).map((x) => `<em>${x.en.name}</em><b>✦</b>`).join('')}</span>`).join('')}</div></div>`;
 }
 
+function featureSec(lang, L) {
+  const F = L.feature;
+  const r = LIVE_RESULTS.find((x) => x.file === 'lash-lift-2');
+  if (!r) return '';
+  const url = tpUrl(lang, r.treatment);
+  return `<section class="feature" aria-labelledby="feature-title">
+  <div class="container feature-grid">
+    <figure class="feature-media" data-clip>
+      <div class="feature-img"><img src="${r.image}"${baSrcset(r.image, '(min-width: 900px) 640px, 100vw')} width="1206" height="1185" alt="${esc(r[lang].alt)}" loading="lazy" decoding="async"></div>
+      <span class="feature-tag feature-tag--b">${F.before}</span><span class="feature-tag feature-tag--a">${F.after}</span>
+    </figure>
+    <div class="feature-copy">
+      <p class="eyebrow" data-reveal>${F.eyebrow}</p>
+      <h2 class="h2" id="feature-title" data-reveal data-split>${F.title}</h2>
+      <p class="lead" data-reveal>${F.text}</p>
+      <div class="btn-row" data-reveal>
+        ${url ? `<a class="btn btn--dark" href="${url}"><span>${F.learn}</span>${I.arrow}</a>` : ''}
+        <a class="btn btn--line" href="#results"><span>${F.more}</span></a>
+      </div>
+      <p class="fineprint" data-reveal>${F.note}</p>
+    </div>
+  </div>
+</section>`;
+}
+
 function about(L) {
   const A = L.about;
   return `<section class="sec about" id="about" aria-labelledby="about-title">
@@ -615,6 +640,7 @@ ${header(lang, routes[other].home)}
 ${preloader()}
 <main id="main">
 ${hero(L)}
+${featureSec(lang, L)}
 ${about(L)}
 ${resultsSec(lang, L)}
 ${statsSec(L)}
