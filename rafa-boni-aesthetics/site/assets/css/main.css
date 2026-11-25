@@ -913,3 +913,7 @@ body.menu-open { overflow: hidden; }
 @media (min-width: 900px) { .feature-grid { grid-template-columns: 1.1fr .9fr; gap: clamp(3rem, 6vw, 6rem); } }
 .feature-media::after { left: 47.7%; }
 .feature-tag--a { left: calc(47.7% + 1rem); }
+
+.tp-results { display: grid; gap: 1.2rem; }
+.tp-results--grid .tp-result { max-width: none; }
+@media (min-width: 600px) { .tp-results--grid { grid-template-columns: 1fr 1fr; } }
