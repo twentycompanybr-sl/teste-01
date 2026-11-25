@@ -640,7 +640,6 @@ ${header(lang, routes[other].home)}
 ${preloader()}
 <main id="main">
 ${hero(L)}
-${featureSec(lang, L)}
 ${about(L)}
 ${resultsSec(lang, L)}
 ${statsSec(L)}

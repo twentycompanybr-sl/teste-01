@@ -65,7 +65,6 @@ export const t = {
       phText: 'Verified reviews will be shared here exactly as our clients wrote them, with their permission. You can also read client experiences on our Instagram.',
       phBtn: 'Read on Instagram',
     },
-    feature: { eyebrow: 'Featured result', title: 'Lash Lift: a more <em>open</em> look', text: 'Natural lashes, lifted and curled from the root for a defined, wide-awake look — no extensions, no daily curler. A real client result, shared with her permission.', learn: 'Discover the Lash Lift', more: 'See more results', before: 'Before', after: 'After', note: 'Individual results vary.' },
     stats: { label: 'Rafa Boni Aesthetics in numbers', items: [['3', 'Years of experience'], ['{count}', 'Advanced treatments'], ['2', 'London locations'], ['1:1', 'Personalised care']] },
     why: {
       eyebrow: 'The Experience', title: 'Why choose Rafa Boni <em>Aesthetics</em>?',
@@ -204,7 +203,6 @@ export const t = {
       phText: 'As avaliações verificadas serão publicadas aqui exatamente como nossas clientes escreveram, com a autorização delas. Você também pode conhecer a experiência das clientes no nosso Instagram.',
       phBtn: 'Ver no Instagram',
     },
-    feature: { eyebrow: 'Resultado em destaque', title: 'Lash Lift: um olhar mais <em>aberto</em>', text: 'Cílios naturais levantados e curvados desde a raiz, para um olhar definido e desperto — sem extensões e sem curvex no dia a dia. Resultado real de cliente, publicado com autorização.', learn: 'Conheça o Lash Lift', more: 'Ver mais resultados', before: 'Antes', after: 'Depois', note: 'Os resultados variam de pessoa para pessoa.' },
     stats: { label: 'Rafa Boni Aesthetics em números', items: [['3', 'Anos de experiência'], ['{count}', 'Tratamentos avançados'], ['2', 'Locais em Londres'], ['1:1', 'Atendimento personalizado']] },
     why: {
       eyebrow: 'A Experiência', title: 'Por que escolher a Rafa Boni <em>Aesthetics</em>?',
