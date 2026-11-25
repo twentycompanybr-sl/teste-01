@@ -84,7 +84,7 @@ export const treatments = [
 
   { id: 'lash-lift', cat: 'facial',
     img: { src: '/assets/before-after/lash-lift-1', widths: [640, 1000], w: 1184, h: 1190, pos: '50% 50%' },
-    en: { name: 'Lash Lift', desc: 'A semi-permanent treatment that lifts and curls your natural lashes from the root, for a wide-awake, defined look without extensions.' },
+    en: { name: 'Lash Lift & Brow Lamination', desc: 'Semi-permanent treatments that lift and curl your natural lashes and shape and set your brows, for a defined, wide-awake look without extensions.' },
     pt: { name: 'Lash Lift', desc: 'Tratamento semipermanente que levanta e curva os cílios naturais desde a raiz, para um olhar mais aberto e definido, sem extensões.' } },
 
   // B. SKIN REJUVENATION & INJECTABLES
@@ -150,6 +150,15 @@ export const results = [
   { treatment: 'lash-lift', file: 'lash-lift-1',
     en: { caption: 'Lash Lift — before (top) and after (bottom)', alt: 'Client’s eye area before and after a lash lift' },
     pt: { caption: 'Lash Lift — antes (em cima) e depois (embaixo)', alt: 'Região dos olhos da cliente antes e depois do lash lift' } },
+  { treatment: 'lash-lift', file: 'lash-brow-3',
+    en: { caption: 'Lash Lift & Brow Lamination — before and after', alt: 'Client before and after brow lamination and lash lift, with fuller, shaped brows' },
+    pt: { caption: 'Lash Lift & Brow Lamination — antes e depois', alt: 'Cliente antes e depois da brow lamination e do lash lift, com sobrancelhas mais cheias e modeladas' } },
+  { treatment: 'lash-lift', file: 'lash-brow-2',
+    en: { caption: 'Lash Lift & Brow Lamination — before and after', alt: 'Client’s eye area before and after lash lift and brow lamination' },
+    pt: { caption: 'Lash Lift & Brow Lamination — antes e depois', alt: 'Região dos olhos da cliente antes e depois do lash lift e da brow lamination' } },
+  { treatment: 'lash-lift', file: 'lash-brow-1',
+    en: { caption: 'Lash Lift & Brow Lamination — before (top) and after (bottom)', alt: 'Client’s eyes and brows before and after lash lift and brow lamination' },
+    pt: { caption: 'Lash Lift & Brow Lamination — antes (em cima) e depois (embaixo)', alt: 'Olhos e sobrancelhas da cliente antes e depois do lash lift e da brow lamination' } },
   { treatment: 'prp-hair', file: 'prp-hair',
     en: { caption: 'PRP for hair — before and after treatment', alt: 'Client’s hairline before and after PRP hair treatment' },
     pt: { caption: 'PRP capilar — antes e depois do tratamento', alt: 'Linha do cabelo da cliente antes e depois do PRP capilar' } },

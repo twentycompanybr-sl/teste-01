@@ -671,7 +671,7 @@ function treatmentPage(lang, id) {
   const media = x.img || cat.img
     ? img(x.img || cat.img, `${d.name} — Rafa Boni Aesthetics`, 'tp-img', { eager: true, sizes: '(min-width: 900px) 44vw, 100vw' })
     : `<div class="tcat-art tp-art" role="img" aria-label="${esc(d.name)}"><svg viewBox="0 0 232 40" aria-hidden="true"><use href="#rb-moons"/></svg></div>`;
-  const result = LIVE_RESULTS.find((r) => r.treatment === id);
+  const tResults = LIVE_RESULTS.filter((r) => r.treatment === id);
   const related = treatments.filter((t) => t.cat === x.cat && t.id !== id && TSLUG[t.id]);
   const steps = U.steps.map(([t, p], i) => `<li data-reveal><span>${pad(i + 1)}</span><div><h3>${t}</h3><p>${i === 2 ? P.after : p}</p></div></li>`).join('');
   const title = `${d.name} ${U.titleSuffix}`;
@@ -713,8 +713,8 @@ ${header(lang, tpUrl(other, id))}
         <ul class="tp-concerns">${P.concerns.map((c, i) => `<li data-reveal style="--d:${i * 0.06}s">${I.check}<span>${c}</span></li>`).join('')}</ul>
         <h2 class="tp-h" data-reveal>${U.how}</h2>
         <ol class="steps tp-steps">${steps}</ol>
-        ${result ? `<h2 class="tp-h" data-reveal>${U.results}</h2>
-        <figure class="tp-result" data-reveal><img src="${result.image}"${baSrcset(result.image, '(min-width: 600px) 520px, 92vw')} alt="${esc(result[lang].alt)}" loading="lazy" decoding="async"><figcaption>${result[lang].caption}</figcaption></figure>` : ''}
+        ${tResults.length ? `<h2 class="tp-h" data-reveal>${U.results}</h2>
+        <div class="tp-results${tResults.length > 1 ? ' tp-results--grid' : ''}">${tResults.map((result) => `<figure class="tp-result" data-reveal><img src="${result.image}"${baSrcset(result.image, tResults.length > 1 ? '(min-width: 900px) 360px, 92vw' : '(min-width: 600px) 520px, 92vw')} alt="${esc(result[lang].alt)}" loading="lazy" decoding="async"><figcaption>${result[lang].caption}</figcaption></figure>`).join('')}</div>` : ''}
         ${(() => { const rel = ART.filter((a) => a.related.includes(id)); return rel.length ? `<h2 class="tp-h" data-reveal>${JU[lang].more}</h2>
         <ul class="tp-articles">${rel.map((a) => `<li data-reveal><a href="${artUrl(lang, a)}"><strong>${a[lang].title}</strong><span>${JU[lang].read} ${I.arrow}</span></a></li>`).join('')}</ul>` : ''; })()}
         <p class="fineprint" data-reveal>${U.note}</p>
