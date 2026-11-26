@@ -48,15 +48,15 @@ export const categories = [
   { id: 'rejuvenation', en: 'Skin Rejuvenation & Injectables', pt: 'Rejuvenescimento & Injetáveis',
     enIntro: 'Injectable, collagen-supporting and non-invasive treatments, planned for subtle and natural-looking refinement.',
     ptIntro: 'Tratamentos injetáveis, bioestimuladores e não invasivos, planejados para um refinamento sutil e natural.',
-    img: null },
+    img: { src: '/assets/treatments/hifu-session', widths: [640], w: 592, h: 784, pos: '50% 40%' } },
   { id: 'prp', en: 'PRP — Platelet-Rich Plasma', pt: 'PRP — Plasma Rico em Plaquetas',
     enIntro: 'Treatments using your own platelet-rich plasma to support skin and hair quality.',
     ptIntro: 'Tratamentos com o seu próprio plasma rico em plaquetas para favorecer a qualidade da pele e dos fios.',
-    img: { src: '/assets/treatments/prp-hair', widths: [640, 1000], w: 1000, h: 1573, pos: '50% 45%' } },
+    img: { src: '/assets/treatments/prp-studio', widths: [640], w: 553, h: 1513, pos: '50% 22%' } },
   { id: 'body', en: 'Body & Specialised Treatments', pt: 'Corporal & Tratamentos Especializados',
     enIntro: 'Targeted treatments for texture, scars, pigmentation and wellbeing.',
     ptIntro: 'Tratamentos direcionados para textura, cicatrizes, pigmentação e bem-estar.',
-    img: null },
+    img: { src: '/assets/treatments/body-microneedling', widths: [640, 1000], w: 914, h: 1600, pos: '50% 45%' } },
 ];
 
 // consultationOnly: true → prescription-only medicines (POMs) must not be
@@ -96,12 +96,12 @@ export const treatments = [
     en: { name: 'Radiesse®', desc: 'A collagen-stimulating injectable treatment designed to support skin firmness and improve the appearance of facial ageing.' },
     pt: { name: 'Radiesse®', desc: 'Tratamento injetável bioestimulador de colágeno, pensado para favorecer a firmeza da pele e suavizar os sinais do envelhecimento facial.' } },
 
-  { id: 'hifu', cat: 'rejuvenation', img: null,
+  { id: 'hifu', cat: 'rejuvenation', img: { src: '/assets/treatments/hifu-session', widths: [640], w: 592, h: 784, pos: '50% 40%' },
     en: { name: 'HIFU', desc: 'A non-invasive, focused-ultrasound treatment designed to support skin firmness and improve the appearance of laxity on the face and neck.' },
     pt: { name: 'HIFU', desc: 'Tratamento não invasivo com ultrassom microfocado, pensado para favorecer a firmeza da pele e suavizar a aparência da flacidez no rosto e no pescoço.' } },
 
   // C. PRP
-  { id: 'prp-facial', cat: 'prp', img: null,
+  { id: 'prp-facial', cat: 'prp', img: { src: '/assets/treatments/prp-facial-session', widths: [640], w: 640, h: 1600, pos: '50% 35%' },
     en: { name: 'PRP Facial', desc: 'A treatment using platelet-rich plasma, designed to support skin regeneration and skin quality.' },
     pt: { name: 'PRP Facial', desc: 'Tratamento com plasma rico em plaquetas, pensado para favorecer a regeneração e a qualidade da pele.' } },
   { id: 'prp-hair', cat: 'prp',
@@ -110,7 +110,7 @@ export const treatments = [
     pt: { name: 'PRP Capilar', desc: 'Tratamento voltado à saúde dos fios, que pode ser considerado para alguns tipos de queda de cabelo após avaliação.' } },
 
   // D. BODY & SPECIALISED
-  { id: 'body-microneedling', cat: 'body', img: null,
+  { id: 'body-microneedling', cat: 'body', img: { src: '/assets/treatments/body-microneedling', widths: [640, 1000], w: 914, h: 1600, pos: '50% 45%' },
     en: { name: 'Body Microneedling', desc: 'A treatment targeting the appearance of stretch marks and scars.' },
     pt: { name: 'Microagulhamento Corporal', desc: 'Tratamento voltado a suavizar a aparência de estrias e cicatrizes.' } },
   { id: 'tattoo-pigmentation-removal', cat: 'body', img: null,
