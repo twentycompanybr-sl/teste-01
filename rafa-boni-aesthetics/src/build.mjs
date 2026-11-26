@@ -427,6 +427,11 @@ function resultsSec(lang, L) {
       <button type="button" class="lb-btn lb-prev" data-lb-prev aria-label="${R.prev}">${I.chevL}</button>
       <button type="button" class="lb-btn lb-next" data-lb-next aria-label="${R.next}">${I.chevR}</button>
     </dialog>
+    <a class="ig-more" href="${ig}" target="_blank" rel="noopener" data-reveal>
+      <span class="ig-more-ic">${I.ig}</span>
+      <span class="ig-more-txt"><strong>${R.igMore}</strong><small>@${C.instagram}</small></span>
+      ${I.arrow}
+    </a>
     <p class="fineprint" data-reveal>${R.intro}</p>`;
   } else {
     body = `<div class="pending" data-reveal>
