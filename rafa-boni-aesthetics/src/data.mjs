@@ -37,8 +37,6 @@ export const config = {
   // Only publish images with the client's written consent, and never results of
   // prescription-only medicines (e.g. botulinum toxin) — UK ASA/CAP rules.
   resultsGalleryEnabled: true,
-  // Two results highlighted right after the hero (file names from `results`)
-  featuredResults: ['microneedling-pdrn-acne', 'microneedling-2'],
 };
 
 // One photo per category (null → elegant moon-phase placeholder).

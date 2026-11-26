@@ -933,3 +933,8 @@ body.menu-open { overflow: hidden; }
 .feature2-foot .fineprint { margin: 0; }
 @media (min-width: 700px) { .feature2-grid { grid-template-columns: 1fr 1fr; } }
 @media (min-width: 900px) { .feature2-head { grid-template-columns: 1fr 1fr; align-items: end; gap: 3rem; } }
+
+/* single, compact before/after section right after the hero */
+@media (min-width: 900px) { .ba-grid { grid-template-columns: repeat(3, 1fr); gap: 1.4rem; } }
+.ba-stage--single { aspect-ratio: 1 / 1; }
+.results { padding-top: clamp(3.5rem, 8vw, 6rem); padding-bottom: clamp(3.5rem, 8vw, 6rem); }
