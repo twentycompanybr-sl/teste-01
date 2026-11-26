@@ -101,7 +101,7 @@ export const treatments = [
     pt: { name: 'HIFU', desc: 'Tratamento não invasivo com ultrassom microfocado, pensado para favorecer a firmeza da pele e suavizar a aparência da flacidez no rosto e no pescoço.' } },
 
   // C. PRP
-  { id: 'prp-facial', cat: 'prp', img: { src: '/assets/treatments/prp-studio', widths: [640], w: 553, h: 1513, pos: '50% 22%' },
+  { id: 'prp-facial', cat: 'prp', img: { src: '/assets/treatments/prp-facial-session', widths: [640], w: 640, h: 1600, pos: '50% 35%' },
     en: { name: 'PRP Facial', desc: 'A treatment using platelet-rich plasma, designed to support skin regeneration and skin quality.' },
     pt: { name: 'PRP Facial', desc: 'Tratamento com plasma rico em plaquetas, pensado para favorecer a regeneração e a qualidade da pele.' } },
   { id: 'prp-hair', cat: 'prp',
