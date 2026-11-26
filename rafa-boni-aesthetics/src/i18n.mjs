@@ -55,7 +55,7 @@ export const t = {
       phTitle: 'Our results gallery is being curated',
       phText: 'Before & after images will be published here only with each client’s written consent and in line with UK advertising guidance. In the meantime, follow our work on Instagram.',
       phList: ['Published only with written client consent', 'No retouching or filters on results', 'Results vary from person to person'],
-      phBtn: 'View on Instagram',
+      phBtn: 'View on Instagram', igMore: 'See more results on Instagram',
     },
     reviews: {
       eyebrow: 'Client Reviews', title: 'Real experiences. <em>Beautiful</em> confidence.',
@@ -194,7 +194,7 @@ export const t = {
       phTitle: 'Nossa galeria de resultados está sendo preparada',
       phText: 'As fotos de antes e depois serão publicadas aqui somente com o consentimento por escrito de cada cliente e de acordo com as normas de publicidade do Reino Unido. Enquanto isso, acompanhe nosso trabalho no Instagram.',
       phList: ['Publicadas somente com consentimento por escrito', 'Sem retoques ou filtros nos resultados', 'Os resultados variam de pessoa para pessoa'],
-      phBtn: 'Ver no Instagram',
+      phBtn: 'Ver no Instagram', igMore: 'Veja mais resultados no Instagram',
     },
     reviews: {
       eyebrow: 'Avaliações', title: 'Experiências reais. Confiança <em>que encanta</em>.',
