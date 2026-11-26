@@ -37,6 +37,8 @@ export const config = {
   // Only publish images with the client's written consent, and never results of
   // prescription-only medicines (e.g. botulinum toxin) — UK ASA/CAP rules.
   resultsGalleryEnabled: true,
+  // Two results highlighted right after the hero (file names from `results`)
+  featuredResults: ['microneedling-pdrn-acne', 'microneedling-2'],
 };
 
 // One photo per category (null → elegant moon-phase placeholder).
@@ -52,7 +54,7 @@ export const categories = [
   { id: 'prp', en: 'PRP — Platelet-Rich Plasma', pt: 'PRP — Plasma Rico em Plaquetas',
     enIntro: 'Treatments using your own platelet-rich plasma to support skin and hair quality.',
     ptIntro: 'Tratamentos com o seu próprio plasma rico em plaquetas para favorecer a qualidade da pele e dos fios.',
-    img: { src: '/assets/treatments/prp-studio', widths: [640], w: 553, h: 1513, pos: '50% 22%' } },
+    img: { src: '/assets/treatments/prp-hair', widths: [640, 1000], w: 1000, h: 1573, pos: '50% 45%' } },
   { id: 'body', en: 'Body & Specialised Treatments', pt: 'Corporal & Tratamentos Especializados',
     enIntro: 'Targeted treatments for texture, scars, pigmentation and wellbeing.',
     ptIntro: 'Tratamentos direcionados para textura, cicatrizes, pigmentação e bem-estar.',

@@ -288,25 +288,26 @@ function hero(L) {
 
 function featureSec(lang, L) {
   const F = L.feature;
-  const r = LIVE_RESULTS.find((x) => x.file === 'lash-lift-2');
-  if (!r) return '';
-  const url = tpUrl(lang, r.treatment);
-  return `<section class="feature" aria-labelledby="feature-title">
-  <div class="container feature-grid">
-    <figure class="feature-media" data-clip>
-      <div class="feature-img"><img src="${r.image}"${baSrcset(r.image, '(min-width: 900px) 640px, 100vw')} width="1206" height="1185" alt="${esc(r[lang].alt)}" loading="lazy" decoding="async"></div>
-      <span class="feature-tag feature-tag--b">${F.before}</span><span class="feature-tag feature-tag--a">${F.after}</span>
-    </figure>
-    <div class="feature-copy">
-      <p class="eyebrow" data-reveal>${F.eyebrow}</p>
-      <h2 class="h2" id="feature-title" data-reveal data-split>${F.title}</h2>
-      <p class="lead" data-reveal>${F.text}</p>
-      <div class="btn-row" data-reveal>
-        ${url ? `<a class="btn btn--dark" href="${url}"><span>${F.learn}</span>${I.arrow}</a>` : ''}
-        <a class="btn btn--line" href="#results"><span>${F.more}</span></a>
+  const items = (C.featuredResults || []).map((f) => LIVE_RESULTS.find((x) => x.file === f)).filter(Boolean);
+  if (!items.length) return '';
+  return `<section class="feature2" aria-labelledby="feature-title">
+  <div class="container">
+    <div class="feature2-head">
+      <div>
+        <p class="eyebrow" data-reveal>${F.eyebrow}</p>
+        <h2 class="h2" id="feature-title" data-reveal data-split>${F.title}</h2>
       </div>
-      <p class="fineprint" data-reveal>${F.note}</p>
+      <p class="feature2-text" data-reveal>${F.text}</p>
     </div>
+    <div class="feature2-grid">${items.map((r, i) => {
+      const url = tpUrl(lang, r.treatment);
+      const t = treatments.find((x) => x.id === r.treatment);
+      return `<figure class="feature2-card" data-reveal style="--d:${i * 0.12}s">
+        <a class="feature2-img"${url ? ` href="${url}"` : ''}><img src="${r.image}"${baSrcset(r.image, '(min-width: 900px) 520px, 92vw')} alt="${esc(r[lang].alt)}" loading="lazy" decoding="async"></a>
+        <figcaption><span>${t ? t[lang].name : r[lang].caption}</span>${url ? `<a class="tlink" href="${url}"><span>${TPU[lang].learn}</span>${I.arrow}</a>` : ''}</figcaption>
+      </figure>`;
+    }).join('')}</div>
+    <div class="feature2-foot" data-reveal><a class="btn btn--line" href="#results"><span>${F.more}</span>${I.arrow}</a><p class="fineprint">${F.note}</p></div>
   </div>
 </section>`;
 }
@@ -640,6 +641,7 @@ ${header(lang, routes[other].home)}
 ${preloader()}
 <main id="main">
 ${hero(L)}
+${featureSec(lang, L)}
 ${about(L)}
 ${resultsSec(lang, L)}
 ${statsSec(L)}
