@@ -32,7 +32,7 @@ export const t = {
       ],
       highlights: [
         ['Founder', 'of Rafa Boni Aesthetics'],
-        ['Aesthetics', 'Graduate'],
+        ['Aesthetic Practitioner', 'London Medical School'],
         ['Food Engineering', 'Graduate'],
         ['3 Years', 'of Experience'],
       ],
@@ -171,7 +171,7 @@ export const t = {
       ],
       highlights: [
         ['Fundadora', 'da Rafa Boni Aesthetics'],
-        ['Estética', 'Formação'],
+        ['Aesthetic Practitioner', 'London Medical School'],
         ['Engenharia de Alimentos', 'Formação'],
         ['3 anos', 'de experiência'],
       ],
